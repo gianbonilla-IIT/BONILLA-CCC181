@@ -40,7 +40,6 @@ My Git configuration uses my student ID number without the hyphen, as instructed
 | 22 | Find commits that introduced swearwords | ![](Bonilla_Gian_22.jpg) |
 | 23 | Find commit that has introduced bug | ![](Bonilla_Gian_23.jpg) |
 
-> Add, remove, or update rows based on the exercises you completed.
 
 ## Folder Contents
 
