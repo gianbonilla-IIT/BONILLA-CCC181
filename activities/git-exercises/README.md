@@ -1,7 +1,7 @@
 # Git Exercises
 
 **Course:** CCC181  
-**Student Name:** BONILLA, GIAN CHRISTIAN
+**Student Name:** BONILLA, GIAN CHRISTIAN  
 **Student ID:** 20240408
 
 ## Activity Description
