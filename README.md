@@ -1,4 +1,4 @@
-# Proposed Application: [Application Name]
+# Proposed Application: ClassQ
 
 | | |
 |---|---|
@@ -11,39 +11,36 @@
 
 ## 1. Problem Statement
 
-> Describe a need, not a feature. "We need a mobile app" is a solution, not a problem.
+Teachers spend valuable time on communicating with students and managing various apps when prompted to enter 1-on-1 meeting calls.
 
 ### 1.1 Background
 
-> [In 3–5 sentences: where does this problem happen, who experiences it, and how did you come across it?]
+Online modalities for academic purposes have become more accepted in these contemporary times. In some situations, teachers would opt to hold 1-on-1 meeting calls to a student or a group of students, with more waiting in the background under a time constraint. This is done for various reasons, but most notably for presentation defenses.  
+
+In my experience, a professor of mine from last semester conducted these calls by letting students manually inputting their group names in google docs for the queueing. Moreover, when their turn is up, the professor directly messaged our group if we are ready; afterwards, we students then edit the google docs when our turn is done to signify progress. 
 
 ### 1.2 Evidence from research
 
-> List what you actually observed or heard, from at least two interviews plus any observation or document review.
-
 | Method | Who / where | Key finding |
 |---|---|---|
-| Interview | [e.g., 2nd-year student, working part-time] | [What they said or did] |
-| Interview | [ ] | [ ] |
-| Observation | [e.g., clinic waiting area, Monday 8–10 AM] | [ ] |
-| Document review | [e.g., current logbook or form] | [ ] |
+| Interview | 3rd year student | The interviewee noted that he spent valuable time periodically checking the queueing documents so that he'll know when he is up. He shared that he gets anxious when the updates stop for a certain amount of time, overthinking if the group that is done didn't bother to update the document. |
+| Interview | grade 12 teacher | The interviewee shared that managing 1-on-1 calls as a teacher demands a lot of patience with current solutions.|
+| Observation | Discord class group, last semester, June 2026 | both teachers and students are complying, however the methods are inefficient |
 
 ### 1.3 Point-of-view (POV) statement
 
-> Format: **[User]** needs **[need]** because **[insight]**.
-
-> [Your POV statement]
+Teachers and students need an application that automates the queueing and notifying system because current solutions are inefficient.
 
 ### 1.4 "How might we…?" question
 
-> [How might we … ?]
+How might we incorporate a queueing system that benefits both teachers and students, enough to outweigh the con that this is simply one other app that will be added to their workflow?
 
 ### 1.5 Self-check
 
-- [ ] Names a real user group
-- [ ] States a need, not a feature
-- [ ] Rests on an insight from research
-- [ ] Is narrow enough to act on and open enough to allow different ideas
+- [x] Names a real user group
+- [x] States a need, not a feature
+- [x] Rests on an insight from research
+- [x] Is narrow enough to act on and open enough to allow different ideas
 
 ---
 
