@@ -189,7 +189,7 @@ For **educators and students** who **conduct 1-on-1 defense sessions and consult
 
 ## Submission Checklist
 
-- [ ] File saved as `activities/proposed-application/README.md` in my CCC181 repository
-- [ ] All `[bracketed placeholders]` replaced and guidance blockquotes removed
-- [ ] Sections 1–5 complete
-- [ ] Images (if any) placed in `images/` and displaying correctly on GitHub
+- [x] File saved as `activities/proposed-application/README.md` in my CCC181 repository
+- [x] All `[bracketed placeholders]` replaced and guidance blockquotes removed
+- [x] Sections 1–5 complete
+- [x] Images (if any) placed in `images/` and displaying correctly on GitHub
