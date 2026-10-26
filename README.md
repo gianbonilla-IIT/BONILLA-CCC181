@@ -48,8 +48,6 @@ How might we incorporate a queueing system that benefits both teachers and stude
 
 ### 2.1 Primary persona
 
-> Every detail should trace back to your research. Label the persona as fictional if it combines several real people.
-
 | | |
 |---|---|
 | **Name, age** | Marcus, 21 (Fictional but based on 3rd-year CS student interview) |
@@ -90,31 +88,34 @@ For **educators and students** who **conduct 1-on-1 defense sessions and consult
 
 | User side | Product side |
 |---|---|
-| **Jobs:** [ ] | **Features:** [ ] |
-| **Pains:** [ ] | **Pain relievers:** [ ] |
-| **Gains:** [ ] | **Gain creators:** [ ] |
+| **Jobs:** Join presentation queues; track call order; transition into meeting links smoothly. | **Features:** Room code/link access; live synchronized queue dashboard; direct meeting URL integration. |
+| **Pains:** High anxiety over stale docs; forgetting to mark progress; constant tab refreshing and distraction. | **Pain relievers:** Real-time queue sync via WebSockets/Supabase; automated browser/audio alerts when "Up Next" or "Called". |
+| **Gains:** Uninterrupted focus on review/defense prep; predictable time management; smooth teacher-student handoffs. | **Gain creators:** Live estimated wait-time countdowns; one-click "Join Call" redirection button. |
 
 ### 3.4 Existing applications (from your application analysis)
 
 | Existing app | What it does well | Where it falls short | How your app differs |
 |---|---|---|---|
-| [ ] | [ ] | [ ] | [ ] |
+| Google Docs / Sheets | Universally accessible; collaborative editing; zero new software to learn. | Entirely manual; prone to accidental overwrites; no real-time push alerts; causes idle anxiety. | ClassQ automatically advances rows and pushes visual/sound pings when a student's turn arrives. |
+| Calendly |Excellent for fixed-slot calendar bookings and calendar sync.| Rigid time blocks; does not handle dynamic queues where defenses run faster or slower than scheduled.| ClassQ operates as a dynamic, rolling live queue adapted to unpredictable academic call durations.|
+| Discord Bot |Leverages existing class communication hubs and user handles.| Requires server setup, permissions, bot hosting, and distracts students with general chat noise.| ClassQ is standalone, distraction-free, and accessible directly via a browser link without installation.|
 
 ### 3.5 Technology choice
 
-> Choose the simplest technology that delivers the value proposition. "No emerging technology needed" is an acceptable, defensible answer.
-
-**Options considered:** [e.g., PWA, native mobile app, AI/LLM feature, IoT sensor, cloud/serverless]
+**Options considered:** 
+1. Progressive Web App (PWA) / Responsive Web App (Next.js/React + Supabase/Firebase): Zero-install, cross-platform, free-tier hosting on Vercel, native WebSockets for instant data sync.
+2. Native Mobile App (Flutter / React Native): Good mobile push notifications, but requires app store downloads, updates, and separate device distribution.
+3. Discord Bot: High integration with existing servers, but excludes non-Discord classrooms and has higher UI design limits for custom dashboards.
 
 **Weighted decision matrix** (scores 1–5, higher is better):
 
 | Option | Solves the problem ×3 | Team skills ×2 | Cost ×2 | Privacy ×2 | Time to MVP ×1 | Total /50 |
 |---|---|---|---|---|---|---|
-| [Option A] | | | | | | |
-| [Option B] | | | | | | |
-| [Option C] | | | | | | |
+| PWA / Responsive Web App | 5 (15) | 4 (8) | 5 (10) | 5 (10)  | 5 (5) | 48 |
+| Native Mobile App | 3 (9) | 3 (6) | 3 (6) | 4 (8) | 2 (2) | 31 |
+| Discord Bot | 4 (12) | 3 (6) |4 (8) | 4 (8) | 4 (4) | 38 |
 
-**Chosen technology and rationale:** [Which option you chose, and which pain or requirement it addresses.]
+**Chosen technology and rationale:** A Responsive Web App / PWA built with React/Next.js and Supabase (PostgreSQL + Realtime) is chosen. It requires no installation, runs on any device (desktop or mobile), costs nothing on standard deployment tiers, and leverages built-in WebSockets to solve the core problem: real-time updates and low-latency audio/browser notifications.
 
 ---
 
@@ -122,35 +123,32 @@ For **educators and students** who **conduct 1-on-1 defense sessions and consult
 
 ### 4.1 Functional requirements (user stories)
 
-> Format: As a **[user]**, I want **[action]** so that **[benefit]**.
-
 | ID | User story | Priority (MoSCoW) |
 |---|---|---|
-| FR-01 | As a [ ], I want [ ] so that [ ]. | Must |
-| FR-02 | As a [ ], I want [ ] so that [ ]. | Must |
-| FR-03 | As a [ ], I want [ ] so that [ ]. | Should |
-| FR-04 | As a [ ], I want [ ] so that [ ]. | Could |
-| FR-05 | As a [ ], I want [ ] so that [ ]. | Won't (this time) |
+| FR-01 | As a teacher, I want to create a queue room with an active meeting link so that students know where to enter when called. | Must |
+| FR-02 | As a student, I want to enter my group name and join the queue room using a link or room code so that I am registered in line without creating an account. | Must |
+| FR-03 | As a student, I want to see a live-updating dashboard showing current turn and my position in line so that I do not need to refresh. | Must |
+| FR-04 | As a teacher, I want a single "Call Next" control to mark a group as completed and immediately notify the next group. | Must |
+| FR-05 | As a student, I want to receive an audio ping and browser notification when my group is "Up Next" or "Called" so that I can prepare without watching the screen. | Should |
+| FR-06 | As a teacher, I want to skip, reorder, or remove absent groups so that the queue does not stall. | Should |
+| FR-07 | As a student and teacher, I want an estimated countdown timer based on average call duration so that we can plan accordingly. | Could |
+| FR-08 | As a teacher, I want to export session queue history and attendance logs to CSV so that I have records for grading. | Won't (this time) |
 
 ### 4.2 Non-functional requirements
 
-> Make each one measurable: "fast" is not a requirement; "updates within 5 seconds" is.
-
 | ID | Category | Requirement |
 |---|---|---|
-| NFR-01 | Performance | [ ] |
-| NFR-02 | Usability | [ ] |
-| NFR-03 | Security / privacy | [ ] |
-| NFR-04 | Compatibility | [ ] |
+| NFR-01 | Performance | Queue updates must propagate to all connected clients within 1.5 seconds of a state change. |
+| NFR-02 | Usability | Students must be able to join the queue in 2 clicks or fewer without requiring email registration or password setup. |
+| NFR-03 | Security / privacy | Rooms and names must expire automatically after 24 hours to comply with RA 10173 data minimization principles. |
+| NFR-04 | Compatibility | The interface must render and function seamlessly on modern desktop browsers and mobile web browsers. |
 
 ### 4.3 MoSCoW summary
 
-> Test for a Must: if the app still solves your POV statement without this feature, it is not a Must. Keep the Must list short.
-
-- **Must have:** [ ]
-- **Should have:** [ ]
-- **Could have:** [ ]
-- **Won't have (this time):** [ ]
+- **Must have:** Queue creation, simple student name entry via link/code, real-time live position tracker, teacher "Next" queue progression button.
+- **Should have:** Audio alert / browser notification on status change ("Up Next" / "In Progress"), ability for teacher to skip or drop absent groups.
+- **Could have:** Dynamic estimated wait-time calculation based on session average.
+- **Won't have (this time):** User authentication systems, LMS integration (Canvas/Google Classroom), analytics dashboard, and exportable CSV attendance logs.
 
 ---
 
