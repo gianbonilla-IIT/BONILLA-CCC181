@@ -154,37 +154,36 @@ For **educators and students** who **conduct 1-on-1 defense sessions and consult
 
 ## 5. Minimum Viable Product (MVP)
 
-> The smallest version of the app that still solves the core problem for your primary persona. It is the scope you commit to finishing this semester.
-
 ### 5.1 MVP features
 
-[List the features in the MVP; they should match your Must list.]
-
-1. [ ]
-2. [ ]
-3. [ ]
+1. Room Generation & Meeting Link Attachment: The teacher creates a room and attaches their Google Meet/Zoom link.
+2. Frictionless Student Queueing: Students join via room code/URL by providing only their group/student name.
+3. Live Synchronized Queue List: A live-updating view indicating who is currently in the call, who is next, and who is queued.
+4. Teacher Queue Controller: A clean interface for the instructor to advance the queue with a single "Call Next" button.
+5. Turn-Alert Audio & Visual Banner: An automated chime and prominent screen banner triggered when a student reaches the top of the queue.
 
 ### 5.2 Out of scope
 
-- [Feature or capability not included, and why]
-- [ ]
+-Persistent User Accounts: No database of student credentials or passwords; all rooms are transient to prioritize speed and privacy.
+-In-App Video Calling: ClassQ handles queueing and redirection only; actual video calls remain on established platforms (Google Meet, Zoom, Discord).
+-LMS Integration: No direct synchronization with institutional databases or grading portals for the initial release.
 
 ### 5.3 Constraints and assumptions
 
-- **Constraints:** [e.g., one semester, free hosting tier, solo developer]
-- **Assumptions:** [e.g., users have a smartphone with mobile data]
+- **Constraints:** Solo-developer project developed within a single academic semester; strictly hosted on zero-cost tiers.
+- **Assumptions:** Users have access to a device with a modern web browser and a stable internet connection capable of sustaining a persistent WebSocket connection.
 
 ### 5.4 Feasibility check (TELOS)
 
 | Dimension | Key question | Your assessment |
 |---|---|---|
-| Technical | Can I build it with my skills and tools? | [ ] |
-| Economic | Do the benefits justify the costs? | [ ] |
-| Legal | Does it comply with law and policy (e.g., RA 10173)? | [ ] |
-| Operational | Will people use it, and can it be run? | [ ] |
-| Schedule | Can I deliver the MVP this semester? | [ ] |
+| Technical | Can I build it with my skills and tools? | Feasible. WebSockets and real-time database SDKs (Supabase/Firebase) are well-documented and fit 3rd-year CS competencies. |
+| Economic | Do the benefits justify the costs? | Feasible. Development and hosting use free open-source frameworks and free developer tiers, requiring zero monetary investment. |
+| Legal | Does it comply with law and policy (e.g., RA 10173)? | Feasible. No sensitive personal information (PII) is permanently stored; temporary student display names are wiped after the session. |
+| Operational | Will people use it, and can it be run? | Feasible. Addresses direct pain points identified in interviews; zero-install web access ensures adoption resistance remains low. |
+| Schedule | Can I deliver the MVP this semester? | Feasible. The core feature set (Must-haves) can be implemented, tested, and demonstrated well within the 1-semester timeline. |
 
-**Verdict:** [Feasible / feasible if … / not feasible, with a short reason]
+**Verdict:** Feasible. The scoped MVP focuses strictly on solving the real-time queue synchronization and notification bottleneck without introducing technical or administrative bloat.
 
 ---
 
