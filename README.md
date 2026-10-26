@@ -2,10 +2,10 @@
 
 | | |
 |---|---|
-| **Student name** | [Last name, First name] |
-| **Section** | [Section] |
-| **GitHub username** | [username] |
-| **Date submitted** | [YYYY-MM-DD] |
+| **Student name** | Bonilla, Gian Christian |
+| **Section** | CS3A |
+| **GitHub username** | gianbonilla-IIT |
+| **Date submitted** | 2026-10-26 |
 
 ---
 
