@@ -1,7 +1,6 @@
-# ClinicQ: Hello, Flask
+# ClassQ
 
-Starter Flask app for **CCC181 Week 2: Git, GitHub & Flask Foundations**.
-It shows the project structure, routes, templates and static files from the slides.
+ClassQ is a lightweight real-time queue management system tailored for academic defenses and 1-on-1 consultation sessions. It automates student turn-tracking and alerts, eliminating idle anxiety and the manual overhead of updating spreadsheets and shared documents.
 
 ## Project structure
 

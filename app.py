@@ -8,12 +8,32 @@ from flask import Flask, abort, redirect, render_template, request, url_for
 
 app = Flask(__name__)
 
-# Sample data for the demo. It lives in memory, so it resets every time the
-# server restarts. A real app would save tickets in a database later.
+# Academic Consultation / Defense Services
+SERVICES = [
+    {"id": 1, "name": "Capstone / Project Defense"},
+    {"id": 2, "name": "Lab Consultation"},
+    {"id": 3, "name": "Grade & Requirement Inquiry"},
+]
+
+# Each ticket: number, group_name, student_id, service_id, meeting_link, status
+# status: waiting, called, served, no-show
 TICKETS = [
-    {"number": 12, "name": "Ana"},
-    {"number": 13, "name": "Ben"},
-    {"number": 14, "name": "Carla"},
+    {
+        "number": 1,
+        "name": "Group 1 - Alpha",
+        "student_id": "2023-0001",
+        "service_id": 1,
+        "meeting_link": "https://meet.google.com/abc-defg-hij",
+        "status": "waiting",
+    },
+    {
+        "number": 2,
+        "name": "Marcus (Solo Defense)",
+        "student_id": "2023-0452",
+        "service_id": 1,
+        "meeting_link": "https://meet.google.com/abc-defg-hij",
+        "status": "waiting",
+    },
 ]
 
 
