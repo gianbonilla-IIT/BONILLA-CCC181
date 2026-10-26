@@ -34,7 +34,7 @@ Marcus sits at his desk with his presentation deck open on one screen and Discor
 
 ---
 
-## Sir Morales, the teacher / staff member
+## Sir Bustos, the teacher / staff member
 
 > "Managing 1-on-1 calls as a teacher demands a lot of patience with current solutions." *(interview, grade 12 / secondary teacher)*
 
@@ -50,7 +50,7 @@ Marcus sits at his desk with his presentation deck open on one screen and Discor
 
 ### Scenario
 
-Sir Morales is conducting back-to-back project defense evaluations for her afternoon laboratory section *(observation)*. He opens the ClassQ Staff Dashboard, views the queue organized by ticket order, and clicks "Call Next" when ready for the first group. When a student fails to enter the video call after several minutes, he marks them as "No-Show" so the line automatically advances without manual messaging overhead. When the evaluation finishes, he clicks "Serve" and immediately moves to the next group in line.
+Sir Bustos is conducting back-to-back project defense evaluations for her afternoon laboratory section *(observation)*. He opens the ClassQ Staff Dashboard, views the queue organized by ticket order, and clicks "Call Next" when ready for the first group. When a student fails to enter the video call after several minutes, he marks them as "No-Show" so the line automatically advances without manual messaging overhead. When the evaluation finishes, he clicks "Serve" and immediately moves to the next group in line.
 
 ### Top tasks in the app
 
@@ -62,6 +62,6 @@ Sir Morales is conducting back-to-back project defense evaluations for her after
 
 ### What this means for my interface
 
-1. Because Sir Morales runs tight call schedules and dislikes manual messaging, the primary "Call Next" button must be prominently placed at the top of the dashboard for instant one-click action.
+1. Because Sir Bustos runs tight call schedules and dislikes manual messaging, the primary "Call Next" button must automatically notify the students waiting and update the queue.
 2. Because students sometimes drop or fail to connect, each row must offer direct, unmistakable "Serve" and "No-show" buttons using clear POST actions to prevent accidental clicks.
 3. Because he monitors grading rubrics and video calls at the same time, the queue table must present a clear, scannable overview with status tags rather than dense, cluttered controls.

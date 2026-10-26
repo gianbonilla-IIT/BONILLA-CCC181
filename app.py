@@ -15,18 +15,60 @@ SERVICES = [
 TICKETS = [
     {
         "number": 1,
-        "name": "Group 1 - Alpha",
-        "topic": "Proposal Defense - Minimizing Traffic by Utilizing Contemporary Solutions",
+        "name": "Sherlock",
+        "topic": "Minimizing Traffic by Utilizing Contemporary Solutions",
+        "service_id": 1,
+        "status": "served",
+    },
+    {
+        "number": 2,
+        "name": "8Eyes",
+        "topic": "Utilizing Open-Source Fly Brain to Beat Simple Video Games",
+        "service_id": 1,
+        "status": "no-show",
+    },
+    {
+        "number": 3,
+        "name": "Media Minds",
+        "topic": "Analyzing the Impact of Social Media on Student Performance",
+        "service_id": 2,
+        "status": "called",
+    },
+    {
+        "number": 4,
+        "name": "Tech Innovators",
+        "topic": "Exploring the Potential of Quantum Computing in Data Analysis",
         "service_id": 1,
         "status": "waiting",
     },
     {
-        "number": 2,
-        "name": "Marcus",
-        "topic": "Proposal Defense - Utilizing Open-Source Fly Brain to Beat Simple Video Games",
+        "number": 5,
+        "name": "Index",
+        "topic": "Developing a Mobile App for Efficient Campus Navigation",
         "service_id": 1,
         "status": "waiting",
     },
+    {
+        "number": 6,
+        "name": "LightLLC",
+        "topic": "Investigating the Use of Light-Based Communication for High-Speed Data Transfer",
+        "service_id": 1,
+        "status": "waiting",
+    },
+    {
+        "number": 7,
+        "name": "GymSolutions",
+        "topic": "Designing a Smart Fitness App to Optimize Workout Routines",
+        "service_id": 1,
+        "status": "waiting",
+    },
+    {
+        "number": 8,
+        "name": "Thrift&Trade",
+        "topic": "Creating a Sustainable E-commerce Platform for Second-Hand Goods",
+        "service_id": 1,
+        "status": "waiting",
+    }
 ]
 
 MEETING_LINK = "https://meet.google.com/abc-defg-hij"  # Provided by the teacher
