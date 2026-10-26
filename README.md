@@ -52,29 +52,27 @@ How might we incorporate a queueing system that benefits both teachers and stude
 
 | | |
 |---|---|
-| **Name, age** | [e.g., Ana, 20] |
-| **Role / background** | [ ] |
-| **Goals** | [What they are trying to get done] |
-| **Frustrations / pain points** | [What slows or blocks them now] |
-| **Context of use** | [Device, connectivity, time, place] |
-| **Accessibility considerations** | [Vision, language, motor, literacy, etc.] |
-| **Current workaround** | [What they do today without your app] |
+| **Name, age** | Marcus, 21 (Fictional but based on 3rd-year CS student interview) |
+| **Role / background** | 3rd-year undergraduate student enrolled in heavy project-based coursework with recurring capstone and lab defense schedules |
+| **Goals** | Know his group’s exact place and estimated call time in queue; prepare and transition smoothly into 1-on-1 defense calls without constant manual tab-switching |
+| **Frustrations / pain points** | Anxiety and dead-time caused by stale, manual Google Docs; fear of missing the call if a previous group finishes early; constantly refreshing and messaging classmates |
+| **Context of use** | Laptop or smartphone connected via residential Wi-Fi or mobile data; multi-tasking across Discord, slide presentations, and video call platforms (Google Meet/Zoom) |
+| **Accessibility considerations** | Clear visual hierarchy, high-contrast queue status badges (Waiting, Up Next, In Progress), audio/browser push pings for turn alerts |
+| **Current workaround** | Keeping a shared Google Doc or spreadsheet open side-by-side, periodically refreshing and watching chat channels (Discord/Messenger) for manual call-outs |
 
 ### 2.2 User groups and stakeholders
 
 | Group | Who | Relationship to the app |
 |---|---|---|
-| Primary users | [ ] | [Uses the app to …] |
-| Secondary users | [ ] | [ ] |
-| Stakeholders | [ ] | [Approves, funds, maintains, is affected by …] |
+| Primary users | College/High school students (individual or group leaders) | Uses the app to join queues, check real-time wait times, and receive automatic notifications when called |
+| Secondary users | Teachers, professors, and lab instructors | Uses the app to host sessions, advance the queue with a single click, trigger automated pings, and track call elapsed time |
+| Stakeholders | School IT administration, academic department chairs | Evaluates data privacy compliance (RA 10173), student productivity, and ease of adoption into existing LMS workflows |
 
 ### 2.3 Organizational needs
 
-> What does the organization that would own or run the app need? Think about mission, policies and compliance (e.g., Data Privacy Act of 2012, RA 10173), budget, existing systems and reporting.
-
-- [Organizational need 1]
-- [Organizational need 2]
-- [Where user and organizational needs may conflict, and how you would handle it]
+- Data Privacy & Minimal Data Collection: Compliance with the Data Privacy Act of 2012 (RA 10173). The system must only collect temporary identifying labels (e.g., student/group name and school email or session token) and purge transient queue records after the session concludes.
+- Zero-Friction Adoption & Cost Efficiency: Must operate under free-tier infrastructure without requiring paid institutional software licenses or mandatory app store downloads.
+- Balancing App Fatigue vs. Single-Purpose Simplicity: To prevent pushback against introducing "yet another app," the solution must not require formal account registration for students—a lightweight join link or room code with real-time browser notifications must suffice.
 
 ---
 
@@ -82,13 +80,11 @@ How might we incorporate a queueing system that benefits both teachers and stude
 
 ### 3.1 Concept
 
-> [In 3–5 sentences: what the app is and how the primary persona would use it.]
+ClassQ is a lightweight, real-time web application engineered to automate queue management and turn notifications for academic 1-on-1 and group consultations or defense calls. Teachers create a dedicated queue room, generate a shareable link or code, and manage turns with a single "Call Next" button. Students join the room via browser, see their live standing in line with an estimated wait time, and receive instant sound or push alerts when their turn arrives. By replacing manually edited shared documents and fragmented direct messages, ClassQ eliminates waiting anxiety and administrative overhead.
 
 ### 3.2 Value proposition
 
-> For **[target users]** who **[need]**, **[product name]** is a **[category]** that **[key benefit]**. Unlike **[current alternative]**, it **[differentiator]**.
-
-> [Your value proposition]
+For **educators and students** who **conduct 1-on-1 defense sessions and consultation calls**, **ClassQ** is a **lightweight, real-time queue management web app** that **automates queue advancement and instant turn notifications**. Unlike **manually updated Google Docs and Discord/Messenger direct chats**, it **provides live synchronization and automated alerts without requiring complex software installation or manual document maintenance**.
 
 ### 3.3 Value Proposition Canvas
 
