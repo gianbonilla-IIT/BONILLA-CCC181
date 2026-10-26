@@ -7,7 +7,7 @@
 | | |
 | --- | --- |
 | **Photo or sketch** | ![stock image of a filipino student using a computer](persona-1-stock.png) |
-| **Age, role and background** | 21, 3rd-year Computer Science student, manages multiple team capstone and defense requirements under strict deadlines *(observation)* |
+| **Age, role and background** | 21, 3rd-year Computer Science student, manages multiple team projects and defense requirements under strict deadlines *(observation)* |
 | **Goals** | 1. Enter the defense queue quickly without juggling multiple shared documents.<br>2. Know exact queue position and estimated turn in real time.<br>3. Focus on presentation review rather than constantly checking for updates. |
 | **Frustrations** | 1. Anxiety over stale, manually edited Google Docs that stop updating *(interview)*.<br>2. Fear of being caught unprepared if an earlier group finishes fast or drops out.<br>3. Switching back and forth across Discord, slide decks, and meeting tabs while waiting *(observation)*. |
 | **Devices and context** | Mid-range laptop connected via residential Wi-Fi, often monitoring Discord class channels while reviewing presentation slides simultaneously *(observation)* |
@@ -16,7 +16,7 @@
 
 ### Scenario
 
-Marcus sits at his desk with his presentation deck open on one screen and Discord open on another *(observation)*. His team has their capstone defense today, and under the current process he has to keep a Google Doc open and watch for manual edits from previous groups *(interview)*. He opens ClassQ, enters his group name and student ID, selects "Capstone / Project Defense", and immediately sees his ticket number and position in line. Instead of dreading whether the document is outdated, he keeps ClassQ in a background tab knowing the browser badge and audio alert will fire when his team is called.
+Marcus sits at his desk with his presentation deck open on one screen and Discord open on another *(observation)*. His team has their proposal defense today, and under the current process he has to keep a Google Doc open and watch for manual edits from previous groups *(interview)*. He opens ClassQ, enters his group name and topic, selects "Project Defense" as a service, and immediately sees his ticket number and position in line. Instead of dreading whether the document is outdated, he keeps ClassQ in a background tab knowing the browser badge and audio alert will fire when his team is called.
 
 ### Top tasks in the app
 

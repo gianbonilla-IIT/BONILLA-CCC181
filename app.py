@@ -1,40 +1,35 @@
-"""CCC181 Week 2: a "Hello, Flask" starter app.
-
-Run it with:
-    flask --app app run --debug
-then open http://127.0.0.1:5000
-"""
 from flask import Flask, abort, redirect, render_template, request, url_for
 
 app = Flask(__name__)
 
-# Academic Consultation / Defense Services
+
+# Academic Services
 SERVICES = [
-    {"id": 1, "name": "Capstone / Project Defense"},
+    {"id": 1, "name": "Project Defense"},
     {"id": 2, "name": "Lab Consultation"},
     {"id": 3, "name": "Grade & Requirement Inquiry"},
 ]
 
-# Each ticket: number, group_name, student_id, service_id, meeting_link, status
+# Each ticket: number, group_name, service_id, status
 # status: waiting, called, served, no-show
 TICKETS = [
     {
         "number": 1,
         "name": "Group 1 - Alpha",
-        "student_id": "2023-0001",
+        "topic": "Proposal Defense - Minimizing Traffic by Utilizing Contemporary Solutions",
         "service_id": 1,
-        "meeting_link": "https://meet.google.com/abc-defg-hij",
         "status": "waiting",
     },
     {
         "number": 2,
-        "name": "Marcus (Solo Defense)",
-        "student_id": "2023-0452",
+        "name": "Marcus",
+        "topic": "Proposal Defense - Utilizing Open-Source Fly Brain to Beat Simple Video Games",
         "service_id": 1,
-        "meeting_link": "https://meet.google.com/abc-defg-hij",
         "status": "waiting",
     },
 ]
+
+MEETING_LINK = "https://meet.google.com/abc-defg-hij"  # Provided by the teacher
 
 
 @app.route("/")
