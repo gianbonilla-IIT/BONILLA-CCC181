@@ -164,9 +164,9 @@ For **educators and students** who **conduct 1-on-1 defense sessions and consult
 
 ### 5.2 Out of scope
 
--Persistent User Accounts: No database of student credentials or passwords; all rooms are transient to prioritize speed and privacy.
--In-App Video Calling: ClassQ handles queueing and redirection only; actual video calls remain on established platforms (Google Meet, Zoom, Discord).
--LMS Integration: No direct synchronization with institutional databases or grading portals for the initial release.
+- Persistent User Accounts: No database of student credentials or passwords; all rooms are transient to prioritize speed and privacy.
+- In-App Video Calling: ClassQ handles queueing and redirection only; actual video calls remain on established platforms (Google Meet, Zoom, Discord).
+- LMS Integration: No direct synchronization with institutional databases or grading portals for the initial release.
 
 ### 5.3 Constraints and assumptions
 
