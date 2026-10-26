@@ -68,7 +68,7 @@ How might we incorporate a queueing system that benefits both teachers and stude
 
 ### 2.3 Organizational needs
 
-- Data Privacy & Minimal Data Collection: Compliance with the Data Privacy Act of 2012 (RA 10173). The system must only collect temporary identifying labels (e.g., student/group name and school email or session token) and purge transient queue records after the session concludes.
+- Data Privacy & Minimal Data Collection: Compliance with the Data Privacy Act of 2012 (RA 10173). The system must only collect temporary identifying labels (e.g., student/group name and topic title) and purge transient queue records after the session concludes.
 - Zero-Friction Adoption & Cost Efficiency: Must operate under free-tier infrastructure without requiring paid institutional software licenses or mandatory app store downloads.
 - Balancing App Fatigue vs. Single-Purpose Simplicity: To prevent pushback against introducing "yet another app," the solution must not require formal account registration for students—a lightweight join link or room code with real-time browser notifications must suffice.
 
@@ -126,7 +126,7 @@ For **educators and students** who **conduct 1-on-1 defense sessions and consult
 | ID | User story | Priority (MoSCoW) |
 |---|---|---|
 | FR-01 | As a teacher, I want to create a queue room with an active meeting link so that students know where to enter when called. | Must |
-| FR-02 | As a student, I want to enter my group name and join the queue room using a link or room code so that I am registered in line without creating an account. | Must |
+| FR-02 | As a student, I want to enter my identification details to join the queue so that I am registered in line without creating an account. | Must |
 | FR-03 | As a student, I want to see a live-updating dashboard showing current turn and my position in line so that I do not need to refresh. | Must |
 | FR-04 | As a teacher, I want a single "Call Next" control to mark a group as completed and immediately notify the next group. | Must |
 | FR-05 | As a student, I want to receive an audio ping and browser notification when my group is "Up Next" or "Called" so that I can prepare without watching the screen. | Should |
