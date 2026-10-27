@@ -114,7 +114,7 @@ if (liveRegion) {
     }
   }
 
-  timer = setInterval(refreshStatus, 10000);
+  timer = setInterval(refreshStatus, 5000);
   // Refresh right away when the student comes back to the tab.
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) refreshStatus();
