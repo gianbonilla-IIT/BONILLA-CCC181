@@ -90,10 +90,10 @@
                 <td class="text-center">{{ status_badge(t.status) }}</td>
                 <td class="text-center">
                     <div class="d-inline-flex gap-1">
-                        {% if t.status == "waiting" and not has_called %}{{ act(t, "call", "Call", "telephone", "btn-outline-call") }}                      {% endif %}
-                        {% if t.status == "called" %}{{ act(t, "serve", "Serve", "check-lg", "btn-outline-success") }}{% endif %}
-                        {% if t.status == "called" %}{{ act(t, "no-show", "No-show", "person-x",  "btn-outline-danger") }}{% endif %}
-                        {{ act(t, "delete", "Delete", "trash", "btn-outline-secondary", "Delete this ticket permanently?") }}
+                        {% if t.status == "waiting" and not has_called %}{{ act(t, "call", "Call", "telephone", "btn-outline-call act-btns") }}                      {% endif %}
+                        {% if t.status == "called" %}{{ act(t, "serve", "Serve", "check-lg", "btn-outline-success act-btns") }}{% endif %}
+                        {% if t.status == "called" %}{{ act(t, "no-show", "No-show", "person-x",  "btn-outline-danger act-btns") }}{% endif %}
+                        {{ act(t, "delete", "Delete", "trash", "btn-outline-secondary act-btns", "Delete this ticket permanently?") }}
                     </div>
                 </td>
             </tr>
