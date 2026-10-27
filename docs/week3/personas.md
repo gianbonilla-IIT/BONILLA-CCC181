@@ -6,7 +6,7 @@
 
 | | |
 | --- | --- |
-| **Photo or sketch** | ![stock image of a filipino student using a computer](persona-1-stock.png) |
+| **Photo or sketch** | ![stock image of a filipino student using a computer](persona-imgs/persona-1-stock.png) |
 | **Age, role and background** | 21, 3rd-year Computer Science student, manages multiple team projects and defense requirements under strict deadlines *(observation)* |
 | **Goals** | 1. Enter the defense queue quickly without juggling multiple shared documents.<br>2. Know exact queue position and estimated turn in real time.<br>3. Focus on presentation review rather than constantly checking for updates. |
 | **Frustrations** | 1. Anxiety over stale, manually edited Google Docs that stop updating *(interview)*.<br>2. Fear of being caught unprepared if an earlier group finishes fast or drops out.<br>3. Switching back and forth across Discord, slide decks, and meeting tabs while waiting *(observation)*. |
@@ -40,7 +40,7 @@ Marcus sits at his desk with his presentation deck open on one screen and Discor
 
 | | |
 | --- | --- |
-| **Photo or sketch** | ![stock image of a filipino teacher](persona-2-stock.png) |
+| **Photo or sketch** | ![stock image of a filipino teacher](persona-imgs/persona-2-stock.png) |
 | **Age, role and background** | 30, teacher handling project-heavy laboratory classes with 30+ students per section *(observation)* |
 | **Goals** | 1. Conduct orderly 1-on-1 defense evaluations within limited class periods.<br>2. Call the next waiting student or group with a single action.<br>3. Prevent defense time from leaking into administrative chat coordination. |
 | **Frustrations** | 1. Having to manually message each student or group on Discord or Messenger to ask if they are ready *(observation)*.<br>2. Dealing with dead time when students do not realize it is their turn.<br>3. Relying on students to update shared documents after their calls finish *(interview)*. |
