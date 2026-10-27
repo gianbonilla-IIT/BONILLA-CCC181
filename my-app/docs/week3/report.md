@@ -26,9 +26,10 @@
 
 | Screen | Laptop View | Phone View | Persona & Requirements |
 | :--- | :--- | :--- | :--- |
-| **Join Queue** | ![Join Laptop](wireframes/join-laptop.png) | ![Join Phone](wireframes/join-phone.png) | Used by **Marcus** to submit group details; covers **FR-02**. |
-| **My Place** | ![Ticket Laptop](wireframes/ticket-laptop.png) | ![Ticket Phone](wireframes/ticket-phone.png) | Used by **Marcus** to track live standing and ticket status; covers **FR-03, FR-06**. |
-| **Staff Dashboard** | ![Staff Laptop](wireframes/staff-laptop.png) | ![Staff Phone](wireframes/staff-phone.png) | Used by **Sir Bustos** to manage the queue and call turns; covers **FR-01, FR-04, FR-06**. |
+| **Join Queue** | ![Join Laptop](screenshots/section-10d-join-laptop.png) | ![Join Phone](screenshots/section-10d-join-phone.png) | Used by **Marcus** to submit group details; covers **FR-02**. |
+| **My Place** | ![Ticket Laptop](screenshots/section-10d-queue-laptop.png) | ![Ticket Phone](screenshots/section-10d-queue-phone.png) | Used by **Marcus** to track live standing and ticket status; covers **FR-03, FR-06**. |
+| **Staff Dashboard** | ![Staff Laptop](screenshots/section-10d-staff-laptop.png) | ![Staff Phone](screenshots/section-10d-staff-phone.png) | Used by **Sir Bustos** to manage the queue and call turns; covers **FR-01, FR-04, FR-06**. |
+
 
 ---
 
