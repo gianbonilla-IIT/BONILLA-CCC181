@@ -1,13 +1,13 @@
-# Usability Test: ClassQ
+# Part 10: Usability test, one fix, and submission
 
-## Tester Profile & Setup
+## 10a. Test with a real user (asynchronous)
 - **Participant:** "J.R." (3rd-year college student from another department; matches the **Marcus** waiting student persona; not enrolled in CCC181).
 - **Consent:** Verbal permission granted to observe and log notes anonymously (no face or full name recorded).
 - **Device & Environment:** Tested in person using a phone connected over local Wi-Fi (`flask --app app run --debug --host 0.0.0.0`) at 375 px mobile viewport width, and switched to laptop for the staff view.
 
 ---
 
-## Task 1: "You just arrived. Get in line for Project Defense."
+### Task 1: "You just arrived. Get in line for Project Defense."
 
 - **Did they finish it?** Yes
 - **About how long it took:** ~22 seconds
@@ -22,7 +22,7 @@
 
 ---
 
-## Task 2: "How many people are ahead of you? What is your number?"
+### Task 2: "How many people are ahead of you? What is your number?"
 
 - **Did they finish it?** Yes
 - **About how long it took:** ~8 seconds
@@ -36,7 +36,7 @@
 
 ---
 
-## Task 3: "Pretend you are the staff member. Call the next person and mark them as served."
+### Task 3: "Pretend you are the staff member. Call the next person and mark them as served."
 
 - **Did they finish it?** Yes
 - **About how long it took:** ~35 seconds
@@ -49,3 +49,23 @@
 - **Which of your persona's "Because …, my interface must …" rules held up, and which did not:**
   - **Held up:** Sir Bustos Rule 3 (*"Because he monitors grading rubrics and video calls at the same time, the queue table must present a clear, scannable overview with status tags..."*). The yellow highlight on the `called` row helped them figure out why they couldn't call a new group yet.
   - **Did not hold up / Needed refinement:** Sir Bustos Rule 1 (*"Because Sir Bustos runs tight call schedules and dislikes manual messaging, the primary 'Call Next' button must automatically notify the students waiting and update the queue"*). Having browser `confirm()` popups on routine actions (`Call Next` and `Serve`) and losing the active service filter when clicking `Call Next` added extra clicks and friction to the teacher's most frequent workflow.
+
+---
+
+## 10b. Make one improvement
+
+### Problem Identified
+When the staff member filters the dashboard by a specific service (e.g., `Project Defense` or `Lab Consultation`) and clicks **Call Next**, the form in `templates/staff.html` did not include `<input type="hidden" name="service_id">`, and `call_next()` in `app.py` redirected to `url_for("staff_dashboard")` instead of `_back_to_dashboard()`. This wiped out the teacher's active filter and called tickets outside the filtered service track.
+
+### How It Was Fixed
+1. **In `templates/staff.html`:** Added `<input type="hidden" name="service_id" value="{{ selected or '' }}">` inside the `call_next` POST form so the active service filter is submitted.
+2. **In `app.py`:** Updated `call_next()` to filter waiting tickets by `service_id` when a filter is active and return `_back_to_dashboard()` so the staff member stays on their filtered view.
+
+### Verification After Fix
+Filtered `/staff` by "Project Defense", served ticket `PD03`, and clicked **Call Next**. The dashboard remained filtered to "Project Defense" and called `PD04` without losing state.
+
+### BEFORE:
+![filter goes back to "All Services" upon calling the next ticket](screenshots\section-10b-before.png)
+
+### AFTER:
+![filter remains to current service selected upon calling the next ticket](screenshots\section-10b-after.png)

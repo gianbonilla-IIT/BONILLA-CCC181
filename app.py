@@ -235,14 +235,24 @@ def staff_action(ticket_id, action):
 def call_next():
     if _someone_is_called():
         flash("Serve or mark the current ticket first.", "warning")
-        return redirect(url_for("staff_dashboard"))
-    nxt = next((t for t in TICKETS if t["status"] == "waiting"), None)
+        return _back_to_dashboard()
+
+    sid = request.form.get("service_id", type=int)
+    nxt = next(
+        (
+            t
+            for t in TICKETS
+            if t["status"] == "waiting"
+            and (not sid or t["service_id"] == sid)
+        ),
+        None,
+    )
     if nxt:
         nxt["status"] = "called"
         flash(f"Now calling {ticket_label(nxt)}: {nxt['name']}.", "success")
     else:
         flash("No one is waiting.", "info")
-    return redirect(url_for("staff_dashboard"))
+    return _back_to_dashboard()
 
 
 @app.post("/staff/clear")
