@@ -71,10 +71,9 @@
         <table class="table align-middle mb-0 queue-table">
             <thead>
               <tr>
-                <th scope="col">Ticket #</th>
+                <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Topic</th>
-                <th scope="col" class="text-center pe-2">Service</th>
                 <th scope="col" class="text-center">Status</th>
                 <th scope="col" class="text-center">Actions</th>
               </tr>
@@ -85,7 +84,6 @@
                 <th scope="row" class="text-nowrap">{{ ticket_label(t) }}</th>
                 <td>{{ t.name }}</td>
                 <td class="topic">{{ t.topic }}</td>
-                <td class="text-center pe-2">{{ names[t.service_id] }}</td>
                 <td class="text-center">{{ status_badge(t.status) }}</td>
                 <td class="text-center">
                     <div class="d-inline-flex gap-1">
@@ -98,7 +96,7 @@
             </tr>
           {% else %}
             <tr>
-              <td colspan="6" class="text-center text-body-secondary py-4">
+              <td colspan="5" class="text-center text-body-secondary py-4">
                 No tickets{% if selected %} for this service{% endif %} yet. Students appear here as soon as they join.
               </td>
             </tr>
