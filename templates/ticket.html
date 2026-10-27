@@ -54,7 +54,7 @@
           <p class="small fst-italic text-body-secondary mb-3">Selected service: {{ service_name }}</p>
 
           <a id="join-call" class="btn btn-success w-100 mb-2" href="{{ meeting_link }}"
-             target="_blank" rel="noopener" {% if ticket.status != "called" %}hidden{% endif %}>Join the call</a>
+             target="_blank" rel="noopener" {% if ticket.status != "called" %}hidden{% endif %}>Join Call</a>
 
           <form id="leave-form" method="post" action="{{ url_for('leave', ticket_id=ticket.number) }}"
                 data-confirm="Leave the queue? Your ticket will be deleted."
