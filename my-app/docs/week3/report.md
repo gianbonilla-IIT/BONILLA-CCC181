@@ -7,7 +7,7 @@
 - **Student ID:** 2024-0408 (or your actual ID)
 - **Section:** CS3A
 - **Date submitted:** October 28, 2026
-- **Pull Request link:** [\[GitHub Pull Request Link Here\]](https://github.com/gianbonilla-IIT/BONILLA-CCC181/compare/feature/week3-interface?expand=1)
+- **Pull Request link:** [\[GitHub Pull Request Link Here\]](https://github.com/gianbonilla-IIT/BONILLA-CCC181/pull/2)
 
 ---
 
