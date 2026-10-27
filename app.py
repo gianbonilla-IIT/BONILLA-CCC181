@@ -162,13 +162,8 @@ def _back_to_dashboard():
     sid = request.form.get("service_id", type=int)
     return redirect(url_for("staff_dashboard", service_id=sid))
 
-
-
-def _finish_current():
-    """Mark whoever is currently being entertained as served."""
-    for t in TICKETS:
-        if t["status"] == "called":
-            t["status"] = "served"
+def _someone_is_called():
+    return any(t["status"] == "called" for t in TICKETS)
 
 @app.get("/staff")
 def staff_dashboard():
@@ -178,7 +173,9 @@ def staff_dashboard():
         rows = [t for t in TICKETS if t["service_id"] == service_id]
     names = {s["id"]: s["name"] for s in SERVICES}
     return render_template("staff.html", rows=rows, services=SERVICES, names=names,
-                           selected=service_id, meeting_link=MEETING_LINK)
+                           selected=service_id, meeting_link=MEETING_LINK,
+                           has_called=_someone_is_called(),
+                           called=next((t for t in TICKETS if t["status"] == "called"), None))
 
 
 @app.post("/staff/tickets/<int:ticket_id>/<action>")
@@ -198,8 +195,9 @@ def staff_action(ticket_id, action):
         if action == "no-show" and t["status"] != "called":
             flash("Only the ticket currently being called can be marked no-show.", "warning")
             return _back_to_dashboard()
-        if action == "call":
-            _finish_current()
+        if action == "call" and _someone_is_called():
+            flash("Serve or mark the current ticket first.", "warning")
+            return _back_to_dashboard()
         t["status"] = new_status
         flash(f"Ticket {label} marked {new_status}.", "info")
     return _back_to_dashboard()
@@ -207,7 +205,9 @@ def staff_action(ticket_id, action):
 
 @app.post("/staff/call-next")
 def call_next():
-    _finish_current()
+    if _someone_is_called():
+        flash("Serve or mark the current ticket first.", "warning")
+        return redirect(url_for("staff_dashboard"))
     nxt = next((t for t in TICKETS if t["status"] == "waiting"), None)
     if nxt:
         nxt["status"] = "called"

@@ -134,3 +134,7 @@ h2 { color: var(--pale-blue); }
   --bs-btn-disabled-bg: #0D6EFD;
   --bs-btn-disabled-border-color: #0D6EFD;
 }
+
+.div-btn {
+  font-weight: bold;
+}

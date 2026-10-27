@@ -90,7 +90,7 @@
                 <td class="text-center">{{ status_badge(t.status) }}</td>
                 <td class="text-center">
                     <div class="d-inline-flex gap-1">
-                      {% if t.status == "waiting" %}{{ act(t, "call", "Call", "telephone", "btn-primary") }}{% endif %}
+                      {% if t.status == "waiting" and not has_called %}{{ act(t, "call", "Call", "telephone", "btn-primary") }}{% endif %}
                       {% if t.status == "called" %}{{ act(t, "serve", "Serve", "check-lg", "btn-success") }}{% endif %}
                       {% if t.status == "called" %}{{ act(t, "no-show", "No-show", "person-x", "btn-outline-danger") }}{% endif %}
                       {{ act(t, "delete", "Delete", "trash", "btn-outline-secondary", "Delete this ticket permanently?") }}
@@ -111,12 +111,26 @@
   </div>
 </div>
 
-<div class="card shadow sticky-bottom" style="bottom: 1rem;">
+<div class="card shadow sticky-bottom queue-card" style="bottom: 1rem;">
   <div class="card-body p-3">
-    <form method="post" action="{{ url_for('call_next') }}"
-        data-confirm="Call the next ticket? The current one will be marked served.">
-      <button type="submit" class="btn btn-call-next btn-lg w-100">Call Next</button>
-    </form>
+    {% if called %}
+      <div class="d-flex gap-2">
+        <form method="post" action="{{ url_for('staff_action', ticket_id=called.number, action='no-show') }}"
+              class="flex-fill" data-confirm="Mark ticket {{ ticket_label(called) }} as no-show?">
+          <input type="hidden" name="service_id" value="{{ selected or '' }}">
+          <button type="submit" class="btn btn-danger btn-lg w-100 div-btn">No Show</button>
+        </form>
+        <form method="post" action="{{ url_for('staff_action', ticket_id=called.number, action='serve') }}"
+              class="flex-fill" data-confirm="Serve ticket {{ ticket_label(called) }}?">
+          <input type="hidden" name="service_id" value="{{ selected or '' }}">
+          <button type="submit" class="btn btn-success btn-lg w-100 div-btn">Serve</button>
+        </form>
+      </div>
+    {% else %}
+      <form method="post" action="{{ url_for('call_next') }}" data-confirm="Call the next ticket?">
+        <button type="submit" class="btn btn-call-next btn-lg w-100 div-btn">Call Next</button>
+      </form>
+    {% endif %}
   </div>
 </div>
 {% endblock %}
