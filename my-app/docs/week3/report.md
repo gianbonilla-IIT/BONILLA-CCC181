@@ -33,9 +33,10 @@
 ---
 
 ## 4. Design decisions
-1. **Prominent Giant Active Counter (`display-1`):** I placed the currently active ticket counter in extra-large text at the top of the ticket screen because student interviews revealed high anxiety over whether document updates had stalled while they reviewed slides.
-2. **Fixed 44px Touch Targets on Staff Action Buttons:** I enforced a strict minimum height and width of 44x44 pixels with centered icons on all table action buttons, tied directly to Sir Bustos's persona constraint of avoiding accidental misclicks during fast-paced back-to-back defense runs.
-3. **Zero Registration Friction Join Form:** I designed the join form to require only a group name, topic, and service track without passwords or account creation, adhering to Marcus's rule that students must join rapidly before defense slots fill up.
+1. **Removed Advised `base.html` Footer:** Contrary to the required checklist, I found it serving no use and just ruining the website's aesthetics. Hence, I removed it.
+2. **Omitted ☰ Button in Mobile Devices:** I deemed it unneccessary. I only have one button there, which is the "Staff Dashboard." There is no need to hide that onto another singular button.
+3. **Implemented Dynamic Upcoming Tickets List**: It is a cool feature I got inspiration when I visited in a Landbank branch in my area. It is nice to have a visual representation of the upcoming line.
+4. **Removed Pagination in `/staff`:** I planned to add this during my wireframe planning. However, I didn't implement it in the end because I don't see a usecase having a queue that long that would benefit from it. With a short queue, it will only add more interactables, which would confuse the user.
 
 ---
 
