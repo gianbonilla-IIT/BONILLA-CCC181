@@ -87,7 +87,12 @@ def ticket_label(t):
 def index():
     return render_template("index.html")
 
-
+def _queue_context(t):
+    """Tickets waiting ahead of t, and the ticket currently being called."""
+    ahead = [x for x in TICKETS
+             if x["status"] == "waiting" and x["number"] < t["number"]]
+    current = next((x for x in TICKETS if x["status"] == "called"), None)
+    return ahead, current
 
 @app.get("/queue/<int:ticket_id>")
 def ticket(ticket_id):
@@ -95,14 +100,23 @@ def ticket(ticket_id):
     if t is None:
         abort(404)
 
-    ahead = [x for x in TICKETS
-             if x["status"] == "waiting" and x["number"] < t["number"]]
-    current = next((x for x in TICKETS if x["status"] == "called"), None)
+    ahead, current = _queue_context(t)
     service_name = next(s["name"] for s in SERVICES if s["id"] == t["service_id"])
 
     return render_template("ticket.html", ticket=t, service_name=service_name,
                            ahead=ahead, current=current, meeting_link=MEETING_LINK)
 
+@app.get("/queue/<int:ticket_id>/status.json")
+def ticket_status(ticket_id):
+    t = next((t for t in TICKETS if t["number"] == ticket_id), None)
+    if t is None:
+        abort(404)
+    ahead, current = _queue_context(t)
+    return {
+        "status": t["status"],
+        "ahead": [ticket_label(x) for x in ahead],
+        "current": ticket_label(current) if current else None,
+    }
 
 @app.post("/queue/<int:ticket_id>/leave")
 def leave(ticket_id):

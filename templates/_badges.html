@@ -1,3 +1,3 @@
-{% macro status_badge(status) %}
-  <span class="badge status-badge status-{{ status }}">{{ status|replace('-', ' ')}}</span>
+{% macro status_badge(status, id=None) %}
+  <span {% if id %}id="{{ id }}"{% endif %} class="badge status-badge status-{{ status }}">{{ status|replace('-', ' ') }}</span>
 {% endmacro %}
