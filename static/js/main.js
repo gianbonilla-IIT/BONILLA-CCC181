@@ -120,3 +120,40 @@ if (liveRegion) {
     if (!document.hidden) refreshStatus();
   });
 }
+
+// Staff dashboard: keep the queue up to date without reloading.
+if (document.getElementById("queue-body")) {
+  const regionIds = ["queue-count", "queue-body", "call-area"];
+
+  async function refreshStaff() {
+    const current = regionIds.map((id) => document.getElementById(id));
+
+    // Don't swap content under the teacher's cursor or keyboard focus.
+    const busy = current.some(
+      (el) => el.contains(document.activeElement) || el.querySelector("button:hover")
+    );
+    if (busy) return;
+
+    try {
+      const res = await fetch(window.location.href, { headers: { "X-Live": "1" } });
+      if (!res.ok) return;
+      const doc = new DOMParser().parseFromString(await res.text(), "text/html");
+
+      regionIds.forEach((id) => {
+        const fresh = doc.getElementById(id);
+        const old = document.getElementById(id);
+        // Only touch the page when something actually changed.
+        if (fresh && old && fresh.innerHTML !== old.innerHTML) {
+          old.innerHTML = fresh.innerHTML;
+        }
+      });
+    } catch (err) {
+      console.warn("Could not refresh the dashboard", err);
+    }
+  }
+
+  setInterval(refreshStaff, 5000);
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) refreshStaff();
+  });
+}
