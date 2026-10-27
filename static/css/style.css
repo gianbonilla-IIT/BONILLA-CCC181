@@ -135,6 +135,31 @@ h2 { color: var(--pale-blue); }
   --bs-btn-disabled-border-color: #0D6EFD;
 }
 
+/* Outline Call button: blue outline, fills on hover/press */
+.btn-outline-call {
+  --bs-btn-color: #0D6EFD;
+  --bs-btn-border-color: #0D6EFD;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #0D6EFD;
+  --bs-btn-hover-border-color: #0D6EFD;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #0B5ED7;
+  --bs-btn-active-border-color: #0B5ED7;
+  --bs-btn-focus-shadow-rgb: 13, 110, 253;
+}
+
+.call-pair {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.call-pair-item {
+  flex: 1 1 0;    /* equal share, ignoring the text length */
+  min-width: 0;
+}
+
+
 .div-btn {
+  border-radius: 50rem;
   font-weight: bold;
 }
