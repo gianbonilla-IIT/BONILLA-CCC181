@@ -157,9 +157,74 @@ def join():
     return redirect(url_for("ticket", ticket_id=number))
 
 
-@app.route("/staff")
+def _back_to_dashboard():
+    """Redirect to the dashboard, keeping the service filter if one was active."""
+    sid = request.form.get("service_id", type=int)
+    return redirect(url_for("staff_dashboard", service_id=sid))
+
+
+@app.get("/staff")
 def staff_dashboard():
-    return "Staff dashboard coming soon"
+    service_id = request.args.get("service_id", type=int)
+    rows = TICKETS
+    if service_id:
+        rows = [t for t in TICKETS if t["service_id"] == service_id]
+    names = {s["id"]: s["name"] for s in SERVICES}
+    return render_template("staff.html", rows=rows, services=SERVICES, names=names,
+                           selected=service_id, meeting_link=MEETING_LINK)
+
+
+@app.post("/staff/tickets/<int:ticket_id>/<action>")
+def staff_action(ticket_id, action):
+    t = next((t for t in TICKETS if t["number"] == ticket_id), None)
+    if t is None:
+        abort(404)
+    label = ticket_label(t)
+
+    if action == "delete":
+        TICKETS.remove(t)
+        flash(f"Ticket {label} deleted.", "info")
+    else:
+        new_status = {"call": "called", "serve": "served", "no-show": "no-show"}.get(action)
+        if new_status is None:
+            abort(404)
+        t["status"] = new_status
+        flash(f"Ticket {label} marked {new_status}.", "info")
+    return _back_to_dashboard()
+
+
+@app.post("/staff/call-next")
+def call_next():
+    # Finish whoever is being entertained, then call the first waiting ticket.
+    for t in TICKETS:
+        if t["status"] == "called":
+            t["status"] = "served"
+    nxt = next((t for t in TICKETS if t["status"] == "waiting"), None)
+    if nxt:
+        nxt["status"] = "called"
+        flash(f"Now calling {ticket_label(nxt)}: {nxt['name']}.", "success")
+    else:
+        flash("No one is waiting.", "info")
+    return redirect(url_for("staff_dashboard"))
+
+
+@app.post("/staff/clear")
+def clear_queue():
+    TICKETS.clear()
+    flash("The queue was cleared.", "info")
+    return redirect(url_for("staff_dashboard"))
+
+
+@app.post("/staff/meeting-link")
+def set_meeting_link():
+    global MEETING_LINK
+    link = request.form.get("meeting_link", "").strip()
+    if not link.startswith(("https://", "http://")):
+        flash("Enter a full link starting with https://", "danger")
+    else:
+        MEETING_LINK = link
+        flash("Meeting link saved. Called students will see a Join the call button.", "success")
+    return redirect(url_for("staff_dashboard"))
 
 
 if __name__ == "__main__":

@@ -90,3 +90,16 @@ h2 { color: var(--pale-blue); }
 .inputfields {
   background-color: white;
 }
+
+/* Staff queue table */
+.queue-table { --bs-table-bg: white; }          /* every cell white... */
+.queue-table thead th {                           /* ...except the header row */
+  background-color: #F2F4F8;
+  font-weight: 500;
+}
+.queue-table tbody th,
+.queue-table tbody td { font-weight: 400; }       /* regular, not bold */
+.queue-table .topic {                             /* thinner Roboto for topics */
+  font-weight: 300;
+  font-style: italic;
+}
