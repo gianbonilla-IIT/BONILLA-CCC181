@@ -103,3 +103,26 @@ h2 { color: var(--pale-blue); }
   font-weight: 300;
   font-style: italic;
 }
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 5rem;               /* same width for every status */
+  font-weight: 500;
+}
+
+.status-badge::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background-color: currentColor;
+  flex-shrink: 0;
+}
+
+.status-served  { background-color: #A7F0BA; color: #26A249; }
+.status-no-show { background-color: #FED6D9; color: #E1404A; }
+.status-called  { background-color: #ffe9a0; color: #ad8c13; }
+.status-waiting { background-color: #D0E2FD; color: #0E62FE; }
