@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Join the queue · ClassQ{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+  <h1 class="display-3 fw-bold mb-1">ClassQ</h1>
+  <p class="text-body-secondary small">A Real-Time Queue Management System for Schools</p>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-5">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h2 class="h4 mb-0">Join Queue</h2>
+        <p class="text-body-secondary mb-3">Enter details</p>
+
+        <form method="post" action="{{ url_for('join') }}" novalidate id="join-form">
+          <div class="mb-3">
+            <label for="name" class="form-label">Student/Group Name</label>
+            <input id="name" name="name" type="text" maxlength="60" required
+                   placeholder="Group 1" autocomplete="off"
+                   class="inputfields form-control {% if errors.name %}is-invalid{% endif %}"
+                   value="{{ form.get('name', '') }}"
+                   {% if errors.name %}aria-describedby="name-error"{% endif %}>
+            {% if errors.name %}
+              <div id="name-error" class="invalid-feedback">{{ errors.name }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-3">
+            <label for="topic" class="form-label">Topic</label>
+            <input id="topic" name="topic" type="text" maxlength="150" required
+                   placeholder="A Showcase of a Novel Algorithm" autocomplete="off"
+                   class="inputfields form-control {% if errors.topic %}is-invalid{% endif %}"
+                   value="{{ form.get('topic', '') }}"
+                   {% if errors.topic %}aria-describedby="topic-error"{% endif %}>
+            {% if errors.topic %}
+              <div id="topic-error" class="invalid-feedback">{{ errors.topic }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-4">
+            <label for="service_id" class="form-label">Service</label>
+            <select id="service_id" name="service_id" required
+                    class="inputfields form-select {% if errors.service_id %}is-invalid{% endif %}"
+                    {% if errors.service_id %}aria-describedby="service-error"{% endif %}>
+              <option value="" disabled {% if not form.get('service_id') %}selected{% endif %}>Choose Service...</option>
+              {% for s in services %}
+                <option value="{{ s.id }}"
+                  {% if form.get('service_id') == s.id|string %}selected{% endif %}>{{ s.name }}</option>
+              {% endfor %}
+            </select>
+            {% if errors.service_id %}
+              <div id="service-error" class="invalid-feedback">{{ errors.service_id }}</div>
+            {% endif %}
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg w-100">Enter Queue</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

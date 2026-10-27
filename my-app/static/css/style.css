@@ -1,0 +1,187 @@
+/* ClassQ colors (from the Week 2 slide deck) */
+:root {
+  --body-white: #F2F4F8;
+  --text-gray: #4D5358;
+  --button-gray: #343A3F;
+  --pale-blue: #4B89FE;
+  --pale-red: #E3565E;
+  --pale-green: #5CB977;
+
+  /* Make Bootstrap use the ClassQ palette */
+  --bs-primary: var(--blue);
+  --bs-primary-rgb: 45, 111, 120;
+  --bs-link-color: var(--pale-blue);
+  --bs-link-hover-color: var(--pale-blue);
+  --bs-body-bg: var(--body-white);
+  
+}
+
+body {
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+.navbar-classq {
+  background-color: white;
+  border-bottom: 1px solid #E3E6EC;
+}
+
+/* Keep navbar-brand text color constant and remove hover effects */
+.navbar-brand,
+.navbar-brand:hover,
+.navbar-brand:focus,
+.navbar-brand:active {
+  color: var(--text-gray);
+}
+
+.btn-dark {
+  background-color: var(--button-gray);
+  /* Crucial: Allows width and vertical padding to work */
+  display: inline-block; 
+  /* Adds 12px padding to top/bottom, 40px to left/right */
+  padding: 5px 20px; 
+}
+
+
+.btn {
+  border-radius: 15px;
+}
+
+
+h2 { color: var(--pale-blue); }
+.error { color: var(--pale-red); font-weight: 600; }
+
+/* Grey placeholder text on the service dropdown while nothing is chosen */
+.form-select:required:invalid {
+  color: var(--bs-secondary-color);
+}
+.form-select option {
+  color: var(--bs-body-color);
+}
+
+.queue-card {
+  border-radius: 50px;
+}
+
+.card, .card-body {
+  background-color: white;
+  border-radius: 50px; 
+}
+
+.shadow-sm {
+  background-color: white;
+  border-radius: 50px; 
+  padding: 10px; 
+}
+.mb-0 {
+  font-weight: bold;
+}
+
+.inputfields {
+  background-color: white;
+}
+
+/* Staff queue table */
+.queue-table { --bs-table-bg: white; }          /* every cell white... */
+.queue-table thead th {                           /* ...except the header row */
+  background-color: #F2F4F8;
+  font-weight: 500;
+}
+.queue-table tbody th,
+.queue-table tbody td { font-weight: 400; }       /* regular, not bold */
+.queue-table .topic {                             /* thinner Roboto for topics */
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* Lighter yellow for the called row */
+.queue-table .table-warning {
+  --bs-table-bg: #FFF9E0;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 5rem;               /* same width for every status */
+  font-weight: 500;
+}
+
+.status-badge::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background-color: currentColor;
+  flex-shrink: 0;
+}
+
+.status-served  { background-color: #A7F0BA; color: #26A249; }
+.status-no-show { background-color: #FED6D9; color: #E1404A; }
+.status-called  { background-color: #ffe9a0; color: #ad8c13; }
+.status-waiting { background-color: #D0E2FD; color: #0E62FE; }
+
+.btn-call-next {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: #0D6EFD;
+  --bs-btn-border-color: #0D6EFD;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #0B5ED7;
+  --bs-btn-hover-border-color: #0A58CA;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #0A58CA;
+  --bs-btn-active-border-color: #0A53BE;
+  --bs-btn-disabled-bg: #0D6EFD;
+  --bs-btn-disabled-border-color: #0D6EFD;
+  --bs-btn-focus-shadow-rgb: 13, 110, 253;   /* new: the soft blue ring */
+}
+
+/* Outline Call button: blue outline, fills on hover/press */
+.btn-outline-call {
+  --bs-btn-color: #0D6EFD;    
+  --bs-btn-border-color: #0D6EFD;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #0D6EFD;
+  --bs-btn-hover-border-color: #0D6EFD;
+  --bs-btn-active-color: #fff;
+--bs-btn-active-bg: #0B5ED7;                          
+  --bs-btn-active-border-color: #0B5ED7;
+  --bs-btn-focus-shadow-rgb: 13, 110, 253;
+}
+
+.call-pair {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.call-pair-item {
+  flex: 1 1 0;    /* equal share, ignoring the text length */
+  min-width: 0;
+}
+
+.div-btn {
+  border-radius: 50rem;
+  font-weight: bold;
+}
+
+/* Button sizing */
+.act-btns {
+  min-width: 44px;
+  min-height: 44px;
+  width: 44px;
+  height: 44px;
+}
+
+/* If using icon fonts like Bootstrap Icons (<i class="bi ...">) */
+.act-btns i {
+  font-size: 1.25rem; /* scales the glyph inside the 44px box */
+  line-height: 1;
+}
+
+/* If using inline SVG icons (<svg class="bi ...">) */
+.act-btns svg {
+  width: 100%;
+  height: 100%;
+  max-width: 22px;   /* preserves comfortable internal padding */
+  max-height: 22px;
+}
