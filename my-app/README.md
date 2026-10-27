@@ -6,17 +6,51 @@ ClassQ is a lightweight real-time queue management system tailored for academic 
 
 ```
 my-app/
-├── app.py              # creates the app and defines routes
-├── requirements.txt    # packages to rebuild the environment
-├── .gitignore          # keeps .venv, caches and secrets out of Git
-├── .venv/              # your virtual environment (not committed)
-├── templates/          # Jinja2 HTML files for render_template()
-│   ├── base.html       # shared layout
-│   ├── index.html      # home page
-│   └── ticket.html     # page for /queue/<ticket_id>
-└── static/             # served at /static/...
-    ├── css/style.css
-    └── js/main.js
+    ├── .gitignore
+    ├── README.md
+    ├── app.py
+    ├── docs/
+    │   ├── week1/
+    │   │   ├── proposal.md
+    │   │   └── proposal.pdf
+    │   └── week3/
+    │       ├── accessibility.md
+    │       ├── feedback.md
+    │       ├── persona-imgs/
+    │       │   ├── persona-1-stock.png
+    │       │   └── persona-2-stock.png
+    │       ├── personas.md
+    │       ├── report.md
+    │       ├── screenshots/
+    │       │   ├── lighthouse-join.png
+    │       │   ├── lighthouse-queue.png
+    │       │   ├── lighthouse-staff.png
+    │       │   ├── nomouse-test1.png
+    │       │   ├── nomouse-test2.png
+    │       │   ├── section-10b-after.png
+    │       │   └── section-10b-before.png
+    │       ├── usability-test.md
+    │       └── wireframes/
+    │           ├── join-laptop.png
+    │           ├── join-phone.png
+    │           ├── staff-laptop.png
+    │           ├── staff-phone.png
+    │           ├── ticket-laptop.png
+    │           └── ticket-phone.png
+    ├── requirements.txt
+    ├── static/
+    │   ├── css/
+    │   │   └── style.css
+    │   ├── js/
+    │   │   └── main.js
+    │   └── logo.png
+    └── templates/
+        ├── _badges.html
+        ├── base.html
+        ├── index.html
+        ├── join.html
+        ├── staff.html
+        └── ticket.html
 ```
 
 ## Routes
