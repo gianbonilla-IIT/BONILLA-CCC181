@@ -88,11 +88,20 @@ def index():
     return render_template("index.html")
 
 def _queue_context(t):
-    """Tickets waiting ahead of t, and the ticket currently being called."""
-    ahead = [x for x in TICKETS
-             if x["status"] == "waiting" and x["number"] < t["number"]]
+    """Everything My place needs to know about the line, from ticket t's point of view.
+
+    Returns (ahead_count, upcoming, waiting_count, current):
+      ahead_count   - waiting tickets with a lower number than t (people ahead of you)
+      upcoming      - the first 4 waiting tickets in the whole line (may include t itself)
+      waiting_count - how many tickets are waiting in total
+      current       - the ticket currently being called, or None
+    """
+    waiting = sorted((x for x in TICKETS if x["status"] == "waiting"),
+                     key=lambda x: x["number"])
+    ahead_count = sum(1 for x in waiting if x["number"] < t["number"])
+    upcoming = waiting[:4]
     current = next((x for x in TICKETS if x["status"] == "called"), None)
-    return ahead, current
+    return ahead_count, upcoming, len(waiting), current
 
 @app.get("/queue/<int:ticket_id>")
 def ticket(ticket_id):
@@ -100,21 +109,26 @@ def ticket(ticket_id):
     if t is None:
         abort(404)
 
-    ahead, current = _queue_context(t)
+    ahead_count, upcoming, waiting_count, current = _queue_context(t)
     service_name = next(s["name"] for s in SERVICES if s["id"] == t["service_id"])
 
     return render_template("ticket.html", ticket=t, service_name=service_name,
-                           ahead=ahead, current=current, meeting_link=MEETING_LINK)
+                           ahead_count=ahead_count, upcoming=upcoming,
+                           waiting_count=waiting_count, current=current,
+                           meeting_link=MEETING_LINK)
 
 @app.get("/queue/<int:ticket_id>/status.json")
 def ticket_status(ticket_id):
     t = next((t for t in TICKETS if t["number"] == ticket_id), None)
     if t is None:
         abort(404)
-    ahead, current = _queue_context(t)
+    ahead_count, upcoming, waiting_count, current = _queue_context(t)
     return {
         "status": t["status"],
-        "ahead": [ticket_label(x) for x in ahead],
+        "ahead": ahead_count,
+        "waiting": waiting_count,
+        "upcoming": [{"label": ticket_label(x), "mine": x["number"] == t["number"]}
+                     for x in upcoming],
         "current": ticket_label(current) if current else None,
     }
 

@@ -64,8 +64,8 @@ if (liveRegion) {
     badge.className = `badge status-badge status-${data.status}`;
     badge.textContent = data.status.replace("-", " ");
 
-    // Position sentence
-    const n = data.ahead.length;
+    // Position sentence: data.ahead is the number of people ahead of you
+    const n = data.ahead;
     let sentence = "";
     if (data.status === "called") sentence = "It's your turn!";
     else if (data.status === "waiting") {
@@ -73,21 +73,29 @@ if (liveRegion) {
     }
     document.getElementById("position-text").textContent = sentence;
 
-    // Currently entertaining + upcoming pills
+    // Currently entertaining + the upcoming line (may include your own ticket)
     document.getElementById("current-number").textContent = data.current || "—";
-    document.getElementById("upcoming-count").textContent = n;
+    document.getElementById("upcoming-count").textContent = data.waiting;
     const box = document.getElementById("upcoming");
     box.replaceChildren();
-    if (n === 0) {
+    if (data.upcoming.length === 0) {
       const empty = document.createElement("span");
       empty.className = "text-body-secondary";
-      empty.textContent = "No one ahead of you";
+      empty.textContent = "No one waiting";
       box.appendChild(empty);
     } else {
-      data.ahead.slice(0, 4).forEach((label, i) => {
+      data.upcoming.forEach((item, i) => {
         const pill = document.createElement("span");
-        pill.className = "badge rounded-pill text-bg-light border fs-6" + (i === 3 ? " d-none d-md-inline" : "");
-        pill.textContent = label;
+        pill.className = "badge rounded-pill fs-6 " +
+          (item.mine ? "text-bg-primary" : "text-bg-light border") +
+          (i === 3 ? " d-none d-md-inline" : "");
+        pill.textContent = item.label;
+        if (item.mine) {
+          const hint = document.createElement("span");
+          hint.className = "visually-hidden";
+          hint.textContent = " (you)";
+          pill.appendChild(hint);
+        }
         box.appendChild(pill);
       });
     }

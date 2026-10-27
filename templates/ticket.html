@@ -21,14 +21,14 @@
             </span>
           </div>
 
-            <p class="mb-2">Upcoming tickets (<span id="upcoming-count">{{ ahead|length }}</span>):</p>
+          <p class="mb-2">Upcoming tickets (<span id="upcoming-count">{{ waiting_count }}</span>):</p>
           <div id="upcoming" class="d-flex justify-content-center gap-2 mb-4">
-            {% for x in ahead[:4] %}
+            {% for x in upcoming %}
             <span
-              class="badge rounded-pill text-bg-light border fs-6 {% if loop.index == 4 %}d-none d-md-inline{% endif %}">{{
-              ticket_label(x) }}</span>
+              class="badge rounded-pill fs-6 {% if x.number == ticket.number %}text-bg-primary{% else %}text-bg-light border{% endif %} {% if loop.index == 4 %}d-none d-md-inline{% endif %}">{{
+              ticket_label(x) }}{% if x.number == ticket.number %}<span class="visually-hidden"> (you)</span>{% endif %}</span>
             {% else %}
-            <span class="text-body-secondary">No one ahead of you</span>
+            <span class="text-body-secondary">No one waiting</span>
             {% endfor %}
           </div>
 
@@ -45,8 +45,8 @@
               {% if ticket.status == "called" %}
               It's your turn!
               {% elif ticket.status == "waiting" %}
-              {% if ahead|length == 0 %}You're next!
-              {% else %}{{ ahead|length }} {{ "person" if ahead|length == 1 else "people" }} ahead of you
+              {% if ahead_count == 0 %}You're next!
+              {% else %}{{ ahead_count }} {{ "person" if ahead_count == 1 else "people" }} ahead of you
               {% endif %}
               {% endif %}
             </p>
