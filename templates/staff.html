@@ -5,15 +5,17 @@
 
 {# One small POST form per action, with an aria-label that names the ticket #}
 {% macro act(t, action, text, icon, cls, confirm_msg=None) %}
-  <form method="post" action="{{ url_for('staff_action', ticket_id=t.number, action=action) }}"
-        class="d-inline"
-        {% if confirm_msg %}onsubmit="return confirm('{{ confirm_msg }}');"{% endif %}>
-    <input type="hidden" name="service_id" value="{{ selected or '' }}">
-    <button type="submit" class="btn btn-sm {{ cls }}"
-            aria-label="{{ text }} ticket {{ ticket_label(t) }}" title="{{ text }}">
-      <i class="bi bi-{{ icon }}" aria-hidden="true"></i>
-    </button>
-  </form>
+    <form method="post" action="{{ url_for('staff_action', ticket_id=t.number, action=action) }}"
+          class="d-inline"
+          onsubmit="return confirm('{{ confirm_msg or (text ~ ' ticket ' ~ ticket_label(t) ~ '?') }}');">
+      <input type="hidden" name="service_id" value="{{ selected or '' }}">
+      <button type="submit" class="btn btn-sm {{ cls }}"
+              aria-label="{{ text }} ticket {{ ticket_label(t) }}" title="{{ text }}">
+        <i class="bi bi-{{ icon }}" aria-hidden="true"></i>
+      </button>
+    </form>
+    <form method="post" action="{{ url_for('call_next') }}"
+        onsubmit="return confirm('Call the next ticket? The current one will be marked served.');">
 {% endmacro %}
 
 {% block content %}
