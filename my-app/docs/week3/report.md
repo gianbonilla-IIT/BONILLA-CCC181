@@ -4,7 +4,7 @@
 - **App name:** ClassQ
 - **Setting:** Academic defenses and 1-on-1 consultations in university and secondary school courses
 - **Full name:** Gian Christian S. Bonilla
-- **Student ID:** 2024-0408 (or your actual ID)
+- **Student ID:** 2024-0408
 - **Section:** CS3A
 - **Date submitted:** October 28, 2026
 - **Pull Request link:** [\[GitHub Pull Request Link Here\]](https://github.com/gianbonilla-IIT/BONILLA-CCC181/compare/feature/week3-interface?expand=1)
