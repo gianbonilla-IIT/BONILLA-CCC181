@@ -66,7 +66,7 @@
 ---
 
 ## 8. Reflection
-- **Hardest part this week:** Balancing clean responsive card alignment across both ultra-wide desktop monitors and 375 px mobile viewports without causing horizontal page scrolling.
+- **Hardest part this week:** Designing the wireframes took a lot of effort and thought, because that phase's output is basically what the development revolved around of.
 - **What to change when moving to a database in Week 4:** Replace in-memory list filtering and global integer counters with proper database primary keys and persistent rows, ensuring ticket URLs remain permanently unique even if preceding tickets are deleted or reordered.
 
 ---
