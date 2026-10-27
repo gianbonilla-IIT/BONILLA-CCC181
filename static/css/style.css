@@ -25,8 +25,13 @@ body {
   border-bottom: 1px solid #E3E6EC;
 }
 
-.navbar-brand {
+/* Keep navbar-brand text color constant and remove hover effects */
+.navbar-brand,
+.navbar-brand:hover,
+.navbar-brand:focus,
+.navbar-brand:active {
   color: var(--text-gray);
+  text-decoration: none;
 }
 
 .btn-dark {
@@ -49,3 +54,12 @@ body {
 
 h2 { color: var(--pale-blue); }
 .error { color: var(--pale-red); font-weight: 600; }
+
+/* Grey placeholder text on the service dropdown while nothing is chosen */
+.form-select:required:invalid {
+  color: var(--bs-secondary-color);
+}
+.form-select option {
+  color: var(--bs-body-color);
+}
+

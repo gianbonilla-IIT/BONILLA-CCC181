@@ -1,7 +1,7 @@
 from flask import Flask, abort, flash, redirect, render_template, request, url_for
 
 app = Flask(__name__)
-app.secret_key = "dev-only-change-me"  # Week 11 moves this into an environment variable
+app.secret_key = "$H@AUL@"  # Week 11 moves this into an environment variable
 
 
 # Academic Services
@@ -89,9 +89,44 @@ def ticket(ticket_id):
     abort(404)  # no ticket with that number
 
 
-@app.route("/join")
+@app.get("/join")
 def join_form():
-    return render_template("join.html")
+    return render_template("join.html", services=SERVICES, form={}, errors={})
+
+
+@app.post("/join")
+def join():
+    form = request.form
+    name = form.get("name", "").strip()
+    topic = form.get("topic", "").strip()
+    service_id = form.get("service_id", type=int)
+
+    errors = {}
+    if not name:
+        errors["name"] = "Enter your name or group name."
+    elif len(name) > 60:
+        errors["name"] = "Keep the name under 60 characters."
+    if not topic:
+        errors["topic"] = "Enter your topic or what you need help with."
+    elif len(topic) > 150:
+        errors["topic"] = "Keep the topic under 150 characters."
+    if service_id not in [s["id"] for s in SERVICES]:
+        errors["service_id"] = "Choose a service."
+
+    if errors:
+        flash("Please fix the highlighted fields.", "danger")
+        return render_template("join.html", services=SERVICES, form=form, errors=errors), 400
+
+    number = TICKETS[-1]["number"] + 1 if TICKETS else 1
+    TICKETS.append({
+        "number": number,
+        "name": name,
+        "topic": topic,
+        "service_id": service_id,
+        "status": "waiting",
+    })
+    flash(f"You joined the queue. Your ticket is #{number}.", "success")
+    return redirect(url_for("ticket", ticket_id=number))
 
 
 @app.route("/staff")
