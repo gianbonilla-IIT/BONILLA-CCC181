@@ -1,16 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <p>Hello, {{ name }}!</p>
-
-  <p><a class="button" href="{{ url_for('join') }}">Join the queue</a></p>
-
-  <h2>Tickets in the queue</h2>
-  <ul class="tickets">
-    {% for t in tickets %}
-      <li><a href="{{ url_for('ticket', ticket_id=t.number) }}">#{{ t.number }}</a> {{ t.name }}</li>
-    {% else %}
-      <li>The queue is empty.</li>
-    {% endfor %}
-  </ul>
+  <section class="text-center py-5">
+    <h1 class="display-4 fw-bold">ClassQ</h1>
+    <p class="lead mx-auto" style="max-width: 36rem;">
+      Join a defense or consultation queue from your phone or laptop. See your
+      place in line live, with no account and no refreshing a shared document.
+    </p>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('join_form') }}">Create a ticket</a>
+  </section>
 {% endblock %}

@@ -1,80 +1,51 @@
-/* Colors borrowed from the Week 2 slide deck */
+/* ClassQ colors (from the Week 2 slide deck) */
 :root {
-  --navy: #16223A;
-  --paper: #F6F4EE;
-  --card: #FFFDF8;
-  --teal: #2D6F78;
-  --orange: #B4501E;
+  --body-white: #F2F4F8;
+  --text-gray: #4D5358;
+  --button-gray: #343A3F;
+  --pale-blue: #4B89FE;
+  --pale-red: #E3565E;
+  --pale-green: #5CB977;
+
+  /* Make Bootstrap use the ClassQ palette */
+  --bs-primary: var(--blue);
+  --bs-primary-rgb: 45, 111, 120;
+  --bs-link-color: var(--pale-blue);
+  --bs-link-hover-color: var(--pale-blue);
+  --bs-body-bg: var(--body-white);
+  
 }
 
 body {
-  margin: 0;
   font-family: "IBM Plex Sans", Arial, sans-serif;
-  background: var(--paper);
-  color: #1B2438;
 }
 
-header {
-  background: var(--navy);
-  color: var(--paper);
-  padding: 1.5rem 2rem;
+.navbar-classq {
+  background-color: white;
+  border-bottom: 1px solid #E3E6EC;
 }
 
-header h1 { margin: 0; }
-header a { color: var(--paper); text-decoration: none; }
-.tagline { margin: 0.25rem 0 0; color: #C5CEDD; }
-
-main {
-  max-width: 720px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+.navbar-brand {
+  color: var(--text-gray);
 }
 
-h2 { color: var(--teal); }
-
-.tickets { list-style: none; padding: 0; }
-.tickets li {
-  background: var(--card);
-  border: 1px solid #E2DED3;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  margin-bottom: 0.5rem;
-}
-.tickets a { color: var(--orange); font-weight: 600; }
-
-code { background: #ECE8DE; padding: 0 0.3rem; border-radius: 4px; }
-
-footer {
-  text-align: center;
-  color: #5A6272;
-  padding: 2rem 0;
+.btn-dark {
+  background-color: var(--button-gray);
 }
 
-/* Join-queue form */
-.button, .join-form button {
-  display: inline-block;
-  background: var(--teal);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 0.6rem 1.2rem;
-  font: inherit;
-  text-decoration: none;
-  cursor: pointer;
+
+
+/* .btn-primary reads its own variables, so set them explicitly */
+.btn-primary {
+  --bs-btn-bg: var(--pale-blue);
+  --bs-btn-border-color: var(--pale-blue);
+  --bs-btn-hover-bg: var(--pale-blue);
+  --bs-btn-hover-border-color: var(--pale-blue);
+  --bs-btn-active-bg: var(--pale-blue);
+  --bs-btn-active-border-color: var(--pale-blue);
+  --bs-btn-disabled-bg: var(--pale-blue);
+  --bs-btn-disabled-border-color: var(--pale-blue);
 }
 
-.join-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  max-width: 320px;
-}
-
-.join-form input {
-  padding: 0.5rem;
-  border: 1px solid #C9C4B8;
-  border-radius: 6px;
-  font: inherit;
-}
-
-.error { color: var(--orange); font-weight: 600; }
+h2 { color: var(--pale-blue); }
+.error { color: var(--pale-red); font-weight: 600; }

@@ -1,6 +1,7 @@
-from flask import Flask, abort, redirect, render_template, request, url_for
+from flask import Flask, abort, flash, redirect, render_template, request, url_for
 
 app = Flask(__name__)
+app.secret_key = "dev-only-change-me"  # Week 11 moves this into an environment variable
 
 
 # Academic Services
@@ -76,9 +77,7 @@ MEETING_LINK = "https://meet.google.com/abc-defg-hij"  # Provided by the teacher
 
 @app.route("/")
 def index():
-    # render_template looks inside the templates/ folder and passes
-    # keyword arguments to the template as variables.
-    return render_template("index.html", name="Ana", tickets=TICKETS)
+    return render_template("index.html")
 
 
 @app.route("/queue/<int:ticket_id>")
@@ -90,26 +89,14 @@ def ticket(ticket_id):
     abort(404)  # no ticket with that number
 
 
-@app.route("/join", methods=["GET", "POST"])
-def join():
-    # GET: show the empty form. POST: the form was submitted.
-    if request.method == "POST":
-        name = request.form.get("name", "").strip()
-        if not name:
-            return render_template("join.html", error="Please enter your name.")
-
-        number = TICKETS[-1]["number"] + 1 if TICKETS else 1
-        TICKETS.append({"number": number, "name": name})
-        # Redirect after POST so refreshing the page doesn't join twice.
-        return redirect(url_for("ticket", ticket_id=number))
-
+@app.route("/join")
+def join_form():
     return render_template("join.html")
 
 
-@app.route("/hello")
-def hello():
-    # The plain-string version from the Routes slide.
-    return "Hello, CCC181!"
+@app.route("/staff")
+def staff_dashboard():
+    return "Staff dashboard coming soon"
 
 
 if __name__ == "__main__":
