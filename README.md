@@ -21,13 +21,20 @@ my-app/
 
 ## Routes
 
-| URL | View function | What you see |
-|---|---|---|
-| `/` | `index()` | "Hello, Ana!" and a list of tickets, rendered with `index.html` |
-| `/queue/<int:ticket_id>` | `ticket()` | A page for that ticket, e.g. `/queue/12` |
-| `/hello` | `hello()` | The plain text "Hello, CCC181!" |
+| URL | Method | View function | What it does |
+|---|---|---|---|
+| `/` | `GET` | `index()` | Landing page with a call-to-action to join the queue |
+| `/join` | `GET`, `POST` | `join_form()`, `join()` | Student form to enter group name, topic, and service track |
+| `/queue/<int:ticket_id>` | `GET` | `ticket()` | Live student ticket status page ("My place") |
+| `/queue/<int:ticket_id>/status.json` | `GET` | `ticket_status()` | JSON endpoint polled every 5s for live ticket updates |
+| `/queue/<int:ticket_id>/leave` | `POST` | `leave()` | Allows a waiting/called student to leave the queue |
+| `/staff` | `GET` | `staff_dashboard()` | Staff dashboard with service filter, meeting link config, and queue table |
+| `/staff/call-next` | `POST` | `call_next()` | Calls the next waiting ticket in line |
+| `/staff/tickets/<int:ticket_id>/<action>` | `POST` | `staff_action()` | Marks a ticket as `call`, `serve`, `no-show`, or `delete` |
+| `/staff/meeting-link` | `POST` | `set_meeting_link()` | Updates the active Google Meet / Zoom link for called tickets |
+| `/staff/clear` | `POST` | `clear_queue()` | Clears all tickets from the queue |
 
-Try `/queue/abc`: the `int` converter only accepts numbers, so Flask returns 404.
+# Setup Guide (CLI)
 
 ## 1. Set up the Python environment
 
@@ -60,74 +67,3 @@ flask --app app run --debug
 
 Open http://127.0.0.1:5000. With `--debug`, the server reloads every time you save a file. Never use debug mode in production.
 
-## 3. Put it on GitHub
-
-### Once per computer
-
-```bash
-git config --global user.name "Your Name"
-git config --global user.email you@g.msuiit.edu.ph   # same email as your GitHub account
-git config --list
-```
-
-### Create the local repository and first commit
-
-```bash
-git init
-git branch -M main
-git status              # .venv should NOT appear, thanks to .gitignore
-git add .
-git commit -m "Add Flask starter app"
-```
-
-### Connect to GitHub and push
-
-1. On GitHub, create a new **empty** repository (no README, no .gitignore).
-2. Copy its URL, then:
-
-```bash
-git remote add origin <repo-url>
-git push -u origin main
-```
-
-GitHub does not accept your account password for Git over HTTPS. Sign in through Git Credential Manager or the GitHub CLI, or use a personal access token or SSH key.
-
-### Everyday loop
-
-```bash
-git pull origin main     # before you start working
-git status
-git add <file>
-git commit -m "Add join-queue form"
-git push origin main     # when you have commits to share
-```
-
-## 4. Lab: ship it through a pull request
-
-1. On GitHub, open an issue: **"Set up Flask starter app"**.
-2. Pull the latest `main`, then create a branch:
-   ```bash
-   git switch main
-   git pull origin main
-   git switch -c feature/flask-setup
-   ```
-3. Create `.venv`, install Flask, write `requirements.txt` and `.gitignore`.
-4. Build `app.py` with a home route and one dynamic route, rendered with `base.html` and `index.html`.
-5. Commit in small steps, then push the branch:
-   ```bash
-   git push -u origin feature/flask-setup
-   ```
-6. On GitHub, click **Compare & pull request** and write `Closes #N` in the description (N is your issue number). Merge it, then:
-   ```bash
-   git switch main
-   git pull origin main
-   ```
-
-**Early finishers:** add another static CSS rule linked with `url_for`, or a third route based on one Must feature from your project milestone.
-
-## Commit message tips
-
-- Short summary in the imperative: "Add...", "Fix..."
-- One logical change per commit
-- Commit early and often
-- Good: "Add join-queue form". Unhelpful: "update", "asdf", "final na talaga".
