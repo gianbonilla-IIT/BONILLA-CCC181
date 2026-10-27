@@ -1,11 +1,67 @@
 {% extends "base.html" %}
+{% from "_badges.html" import status_badge %}
 
+{% block title %}Ticket {{ ticket_label(ticket) }} · ClassQ{% endblock %}
+
+{# Staff don't hold tickets, so no Staff Dashboard button on this page #}
 {% block nav_links %}{% endblock %}
 
-{% block title %}Ticket #{{ ticket.number }} · ClassQ{% endblock %}
-
 {% block content %}
-  <h2>Ticket #{{ ticket.number }}</h2>
-  <p>Hi {{ ticket.name }}! You are <strong>number {{ position }}</strong> in the queue.</p>
-  <p><a href="{{ url_for('index') }}">&larr; Back to the queue</a></p>
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-5">
+
+    <div class="card shadow-sm mb-4">
+      <div class="card-body p-4 text-center">
+        <p class="mb-2">Currently entertaining:</p>
+        <div class="bg-body-tertiary rounded-4 py-4 mb-4">
+          <span id="current-number" class="display-1 fw-bold">
+            {% if current %}{{ ticket_label(current) }}{% else %}&mdash;{% endif %}
+          </span>
+        </div>
+
+        <p class="mb-2">Upcoming tickets:</p>
+        <div id="upcoming" class="d-flex justify-content-center gap-2 mb-4">
+          {% for x in ahead[:4] %}
+            <span class="badge rounded-pill text-bg-light border fs-6 {% if loop.index == 4 %}d-none d-md-inline{% endif %}">{{ ticket_label(x) }}</span>
+          {% else %}
+            <span class="text-body-secondary">No one ahead of you</span>
+          {% endfor %}
+        </div>
+
+        <p class="mb-2">Your ticket number is:</p>
+        <span class="badge rounded-pill text-bg-light border fs-5">{{ ticket_label(ticket) }}</span>
+      </div>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-body p-4 text-center">
+        <div id="live-status" aria-live="polite">
+          <p class="mb-1">Status: {{ status_badge(ticket.status) }}</p>
+          <p class="fw-semibold mb-1">
+            {% if ticket.status == "called" %}
+              It's your turn!
+            {% elif ticket.status == "waiting" %}
+              {% if ahead|length == 0 %}You're next!
+              {% else %}{{ ahead|length }} {{ "person" if ahead|length == 1 else "people" }} ahead of you
+              {% endif %}
+            {% endif %}
+          </p>
+        </div>
+        <p class="small fst-italic text-body-secondary mb-3">Selected service: {{ service_name }}</p>
+
+        {% if ticket.status == "called" %}
+          <a class="btn btn-success w-100 mb-2" href="{{ meeting_link }}" target="_blank" rel="noopener">Join the call</a>
+        {% endif %}
+
+        {% if ticket.status in ("waiting", "called") %}
+          <form method="post" action="{{ url_for('leave', ticket_id=ticket.number) }}">
+            <button type="submit" class="btn btn-danger w-100"
+                    aria-label="Leave the queue (ticket {{ ticket_label(ticket) }})">Leave Queue</button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</div>
 {% endblock %}

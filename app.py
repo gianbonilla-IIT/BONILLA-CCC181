@@ -1,14 +1,14 @@
+import itertools
 from flask import Flask, abort, flash, redirect, render_template, request, url_for
 
 app = Flask(__name__)
 app.secret_key = "$H@AUL@"  # Week 11 moves this into an environment variable
 
-
 # Academic Services
 SERVICES = [
-    {"id": 1, "name": "Project Defense"},
-    {"id": 2, "name": "Lab Consultation"},
-    {"id": 3, "name": "Grade & Requirement Inquiry"},
+    {"id": 1, "name": "Project Defense", "code": "PD"},
+    {"id": 2, "name": "Lab Consultation", "code": "LC"},
+    {"id": 3, "name": "Grade & Requirement Inquiry", "code": "GR"},
 ]
 
 # Each ticket: number, group_name, service_id, status
@@ -32,7 +32,7 @@ TICKETS = [
         "number": 3,
         "name": "Media Minds",
         "topic": "Analyzing the Impact of Social Media on Student Performance",
-        "service_id": 2,
+        "service_id": 1,
         "status": "called",
     },
     {
@@ -72,21 +72,49 @@ TICKETS = [
     }
 ]
 
+_ticket_numbers = itertools.count(max((t["number"] for t in TICKETS), default=0) + 1)
+
+
+
 MEETING_LINK = "https://meet.google.com/abc-defg-hij"  # Provided by the teacher
 
+@app.template_global()
+def ticket_label(t):
+    code = next((s["code"] for s in SERVICES if s["id"] == t["service_id"]), "")
+    return f"{code}{t['number']:02d}"
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
 
-@app.route("/queue/<int:ticket_id>")
+
+@app.get("/queue/<int:ticket_id>")
 def ticket(ticket_id):
-    # <int:ticket_id> only matches numbers, so /queue/abc returns 404.
-    for position, t in enumerate(TICKETS, start=1):
-        if t["number"] == ticket_id:
-            return render_template("ticket.html", ticket=t, position=position)
-    abort(404)  # no ticket with that number
+    t = next((t for t in TICKETS if t["number"] == ticket_id), None)
+    if t is None:
+        abort(404)
+
+    ahead = [x for x in TICKETS
+             if x["status"] == "waiting" and x["number"] < t["number"]]
+    current = next((x for x in TICKETS if x["status"] == "called"), None)
+    service_name = next(s["name"] for s in SERVICES if s["id"] == t["service_id"])
+
+    return render_template("ticket.html", ticket=t, service_name=service_name,
+                           ahead=ahead, current=current, meeting_link=MEETING_LINK)
+
+
+@app.post("/queue/<int:ticket_id>/leave")
+def leave(ticket_id):
+    t = next((t for t in TICKETS if t["number"] == ticket_id), None)
+    if t is None:
+        abort(404)
+    if t["status"] in ("waiting", "called"):
+        TICKETS.remove(t)
+        flash("You left the queue.", "info")
+    else:
+        flash("That ticket is already closed.", "warning")
+    return redirect(url_for("join_form"))
 
 
 @app.get("/join")
@@ -117,7 +145,7 @@ def join():
         flash("Please fix the highlighted fields.", "danger")
         return render_template("join.html", services=SERVICES, form=form, errors=errors), 400
 
-    number = TICKETS[-1]["number"] + 1 if TICKETS else 1
+    number = next(_ticket_numbers)
     TICKETS.append({
         "number": number,
         "name": name,
@@ -125,7 +153,7 @@ def join():
         "service_id": service_id,
         "status": "waiting",
     })
-    flash(f"You joined the queue. Your ticket is #{number}.", "success")
+    flash(f"You joined the queue. Your ticket is {ticket_label(TICKETS[-1])}.", "success")
     return redirect(url_for("ticket", ticket_id=number))
 
 

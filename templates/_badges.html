@@ -1,0 +1,9 @@
+{% macro status_badge(status) %}
+  {% set styles = {
+    "waiting": "text-bg-primary",
+    "called": "text-bg-warning",
+    "served": "text-bg-success",
+    "no-show": "text-bg-danger"
+  } %}
+  <span class="badge {{ styles.get(status, 'text-bg-secondary') }}">{{ status|replace('-', ' ')|capitalize }}</span>
+{% endmacro %}

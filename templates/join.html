@@ -19,7 +19,7 @@
             <label for="name" class="form-label">Student/Group Name</label>
             <input id="name" name="name" type="text" maxlength="60" required
                    placeholder="Group 1" autocomplete="off"
-                   class="form-control {% if errors.name %}is-invalid{% endif %}"
+                   class="inputfields form-control {% if errors.name %}is-invalid{% endif %}"
                    value="{{ form.get('name', '') }}"
                    {% if errors.name %}aria-describedby="name-error"{% endif %}>
             {% if errors.name %}
@@ -31,7 +31,7 @@
             <label for="topic" class="form-label">Topic</label>
             <input id="topic" name="topic" type="text" maxlength="150" required
                    placeholder="A Showcase of a Novel Algorithm" autocomplete="off"
-                   class="form-control {% if errors.topic %}is-invalid{% endif %}"
+                   class="inputfields form-control {% if errors.topic %}is-invalid{% endif %}"
                    value="{{ form.get('topic', '') }}"
                    {% if errors.topic %}aria-describedby="topic-error"{% endif %}>
             {% if errors.topic %}
@@ -42,7 +42,7 @@
           <div class="mb-4">
             <label for="service_id" class="form-label">Service</label>
             <select id="service_id" name="service_id" required
-                    class="form-select {% if errors.service_id %}is-invalid{% endif %}"
+                    class="inputfields form-select {% if errors.service_id %}is-invalid{% endif %}"
                     {% if errors.service_id %}aria-describedby="service-error"{% endif %}>
               <option value="" disabled {% if not form.get('service_id') %}selected{% endif %}>Choose Service...</option>
               {% for s in services %}
