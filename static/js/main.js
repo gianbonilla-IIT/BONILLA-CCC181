@@ -1,4 +1,10 @@
-// ClassQ: shared behaviors
+// Confirm before submitting any form that has a data-confirm message.
+document.addEventListener("submit", (event) => {
+  const form = event.target.closest("form[data-confirm]");
+  if (form && !window.confirm(form.dataset.confirm)) {
+    event.preventDefault();
+  }
+});
 
 // 1. Clear a field's error as soon as the user edits it.
 //    Bootstrap only shows .invalid-feedback next to an .is-invalid field,
@@ -26,3 +32,4 @@ document.querySelectorAll(".alert").forEach((alertEl) => {
   alertEl.addEventListener("mouseleave", () => { timer = setTimeout(close, 1000); });
   alertEl.addEventListener("focusin", () => clearTimeout(timer));
 });
+

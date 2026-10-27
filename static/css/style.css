@@ -31,7 +31,6 @@ body {
 .navbar-brand:focus,
 .navbar-brand:active {
   color: var(--text-gray);
-  text-decoration: none;
 }
 
 .btn-dark {
@@ -48,18 +47,6 @@ body {
 }
 
 
-/* .btn-primary reads its own variables, so set them explicitly */
-.btn-primary {
-  --bs-btn-bg: var(--pale-blue);
-  --bs-btn-border-color: var(--pale-blue);
-  --bs-btn-hover-bg: var(--pale-blue);
-  --bs-btn-hover-border-color: var(--pale-blue);
-  --bs-btn-active-bg: var(--pale-blue);
-  --bs-btn-active-border-color: var(--pale-blue);
-  --bs-btn-disabled-bg: var(--pale-blue);
-  --bs-btn-disabled-border-color: var(--pale-blue);
-}
-
 h2 { color: var(--pale-blue); }
 .error { color: var(--pale-red); font-weight: 600; }
 
@@ -71,11 +58,13 @@ h2 { color: var(--pale-blue); }
   color: var(--bs-body-color);
 }
 
-.card-body {
+.queue-card {
+  border-radius: 50px;
+}
+
+.card, .card-body {
   background-color: white;
   border-radius: 50px; 
-  border: none;
-  outline: none;
 }
 
 .shadow-sm {
@@ -104,6 +93,11 @@ h2 { color: var(--pale-blue); }
   font-style: italic;
 }
 
+/* Lighter yellow for the called row */
+.queue-table .table-warning {
+  --bs-table-bg: #FFF9E0;
+}
+
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -126,3 +120,17 @@ h2 { color: var(--pale-blue); }
 .status-no-show { background-color: #FED6D9; color: #E1404A; }
 .status-called  { background-color: #ffe9a0; color: #ad8c13; }
 .status-waiting { background-color: #D0E2FD; color: #0E62FE; }
+
+.btn-call-next {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: #0D6EFD;
+  --bs-btn-border-color: #0D6EFD;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #0B5ED7;          /* slightly darker on hover */
+  --bs-btn-hover-border-color: #0A58CA;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #0A58CA;
+  --bs-btn-active-border-color: #0A53BE;
+  --bs-btn-disabled-bg: #0D6EFD;
+  --bs-btn-disabled-border-color: #0D6EFD;
+}

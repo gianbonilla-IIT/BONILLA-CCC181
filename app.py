@@ -163,6 +163,13 @@ def _back_to_dashboard():
     return redirect(url_for("staff_dashboard", service_id=sid))
 
 
+
+def _finish_current():
+    """Mark whoever is currently being entertained as served."""
+    for t in TICKETS:
+        if t["status"] == "called":
+            t["status"] = "served"
+
 @app.get("/staff")
 def staff_dashboard():
     service_id = request.args.get("service_id", type=int)
@@ -188,6 +195,11 @@ def staff_action(ticket_id, action):
         new_status = {"call": "called", "serve": "served", "no-show": "no-show"}.get(action)
         if new_status is None:
             abort(404)
+        if action == "no-show" and t["status"] != "called":
+            flash("Only the ticket currently being called can be marked no-show.", "warning")
+            return _back_to_dashboard()
+        if action == "call":
+            _finish_current()
         t["status"] = new_status
         flash(f"Ticket {label} marked {new_status}.", "info")
     return _back_to_dashboard()
@@ -195,10 +207,7 @@ def staff_action(ticket_id, action):
 
 @app.post("/staff/call-next")
 def call_next():
-    # Finish whoever is being entertained, then call the first waiting ticket.
-    for t in TICKETS:
-        if t["status"] == "called":
-            t["status"] = "served"
+    _finish_current()
     nxt = next((t for t in TICKETS if t["status"] == "waiting"), None)
     if nxt:
         nxt["status"] = "called"

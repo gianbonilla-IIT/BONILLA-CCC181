@@ -5,22 +5,20 @@
 
 {# One small POST form per action, with an aria-label that names the ticket #}
 {% macro act(t, action, text, icon, cls, confirm_msg=None) %}
-    <form method="post" action="{{ url_for('staff_action', ticket_id=t.number, action=action) }}"
-          class="d-inline"
-          onsubmit="return confirm('{{ confirm_msg or (text ~ ' ticket ' ~ ticket_label(t) ~ '?') }}');">
-      <input type="hidden" name="service_id" value="{{ selected or '' }}">
-      <button type="submit" class="btn btn-sm {{ cls }}"
-              aria-label="{{ text }} ticket {{ ticket_label(t) }}" title="{{ text }}">
-        <i class="bi bi-{{ icon }}" aria-hidden="true"></i>
-      </button>
-    </form>
-    <form method="post" action="{{ url_for('call_next') }}"
-        onsubmit="return confirm('Call the next ticket? The current one will be marked served.');">
+  {% set msg = confirm_msg or (text ~ " ticket " ~ ticket_label(t) ~ "?") %}
+  <form method="post" action="{{ url_for('staff_action', ticket_id=t.number, action=action) }}"
+        class="d-inline" data-confirm="{{ msg }}">
+    <input type="hidden" name="service_id" value="{{ selected or '' }}">
+    <button type="submit" class="btn btn-sm {{ cls }}"
+            aria-label="{{ text }} ticket {{ ticket_label(t) }}" title="{{ text }}">
+      <i class="bi bi-{{ icon }}" aria-hidden="true"></i>
+    </button>
+  </form>
 {% endmacro %}
 
 {% block content %}
-<div class="card shadow-sm mb-4">
-  <div class="card-body p-3 p-md-4">
+<div class="card shadow-sm mb-4 queue-card">
+  <div class="card-body p-3 p-md-4 table-container">
 
     <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
       <div class="me-auto">
@@ -47,7 +45,7 @@
       </button>
 
       <form method="post" action="{{ url_for('clear_queue') }}"
-            onsubmit="return confirm('Clear the whole queue? This deletes every ticket.');">
+            data-confirm="Clear the whole queue? This deletes every ticket.">
         <button type="submit" class="btn btn-danger btn-sm">
           <i class="bi bi-arrow-repeat" aria-hidden="true"></i> Clear Queue
         </button>
@@ -64,7 +62,10 @@
                  value="{{ meeting_link }}" placeholder="https://meet.google.com/...">
         </div>
         <div class="col-12 col-md-auto">
-          <button type="submit" class="btn btn-primary w-100">Save link</button>
+          <button type="submit" class="btn btn-primary"
+                  aria-label="Save meeting link" title="Save meeting link">
+            <i class="bi bi-link-45deg" aria-hidden="true"></i>
+          </button>
         </div>
       </form>
     </div>
@@ -91,7 +92,7 @@
                     <div class="d-inline-flex gap-1">
                       {% if t.status == "waiting" %}{{ act(t, "call", "Call", "telephone", "btn-primary") }}{% endif %}
                       {% if t.status == "called" %}{{ act(t, "serve", "Serve", "check-lg", "btn-success") }}{% endif %}
-                      {% if t.status in ("waiting", "called") %}{{ act(t, "no-show", "No-show", "person-x", "btn-outline-danger") }}{% endif %}
+                      {% if t.status == "called" %}{{ act(t, "no-show", "No-show", "person-x", "btn-outline-danger") }}{% endif %}
                       {{ act(t, "delete", "Delete", "trash", "btn-outline-secondary", "Delete this ticket permanently?") }}
                     </div>
                 </td>
@@ -112,8 +113,9 @@
 
 <div class="card shadow sticky-bottom" style="bottom: 1rem;">
   <div class="card-body p-3">
-    <form method="post" action="{{ url_for('call_next') }}">
-      <button type="submit" class="btn btn-success btn-lg w-100">Call Next</button>
+    <form method="post" action="{{ url_for('call_next') }}"
+        data-confirm="Call the next ticket? The current one will be marked served.">
+      <button type="submit" class="btn btn-call-next btn-lg w-100">Call Next</button>
     </form>
   </div>
 </div>
