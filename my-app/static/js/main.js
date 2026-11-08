@@ -122,7 +122,7 @@ if (liveRegion) {
     }
   }
 
-  timer = setInterval(refreshStatus, 5000);
+  timer = setInterval(refreshStatus, 1500);
   // Refresh right away when the student comes back to the tab.
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) refreshStatus();
@@ -160,7 +160,7 @@ if (document.getElementById("queue-body")) {
     }
   }
 
-  setInterval(refreshStaff, 5000);
+  setInterval(refreshStaff, 1500);
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) refreshStaff();
   });
