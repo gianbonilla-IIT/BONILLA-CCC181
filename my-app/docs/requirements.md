@@ -18,9 +18,9 @@
 | FR-04 | As a teacher, I want a single "Call Next" control to advance the queue and call the next group. | Must | **Yes** | Built (Week 3) |
 | FR-05 | As a student, I want real-time status alerts and dynamic view updates on my ticket status page. | Should | **Yes** | Built (Week 3) |
 | FR-06 | As a student or teacher, I want the ability to leave the queue or mark tickets as served or no-show. | Should | **Yes** | Built (Week 3) |
-| FR-07 | As a student and teacher, I want an estimated countdown timer based on average call duration so that we can plan accordingly. | Could | **Yes** | Later |
-| FR-08 | As a teacher, I want to export session queue history and attendance logs to CSV so that I have records for grading. | Won't (this semester) | **Yes** | Dropped |
-| FR-09 ★ | As a teacher, I want to manage service tracks (add, rename, set average duration, and toggle active/inactive). | Must | **Yes** | This week |
+| FR-07 | As a student and teacher, I want an estimated countdown timer based on average call duration so that we can plan accordingly. | Won't | **Yes** | Dropped |
+| FR-08 | As a teacher, I want to export session queue history and attendance logs to CSV so that I have records for grading. | Won't  | **Yes** | Dropped |
+| FR-09 ★ | As a teacher, I want to manage service tracks (add, rename, and toggle active/inactive). | Must | **Yes** | This week |
 | FR-10 | As a teacher, I want to permanently delete mistaken or test tickets from the dashboard. | Must | **Yes** | This week |
 
 *Note: Requirements marked with ★ denote setting-specific features tailored to academic consultation queues.*
@@ -46,8 +46,9 @@
 The MVP consists of **FR-01, FR-02, FR-03, FR-04, FR-05, FR-06, FR-09, and FR-10**. This selection represents the absolute minimum functionality required for an instructor to host structured consultation sessions and defenses without losing line state across restarts or risking duplicate tickets.
 
 ### Out of Scope (This Semester)
-1. **FR-08 (CSV Export & Session Grading Logs):** Session reporting will not export directly to downloadable CSV files this semester.
-2. **Multi-Tenant User Authentication & OAuth:** Students will not register permanent accounts or log in via Google OAuth; identity relies on the ticket itself, with no email or personal contact details collected.
+1. **FR-07 (Estimated Countdown Timer):**  It adds uneccesary complexity to my queueing app.
+2. **FR-08 (CSV Export & Session Grading Logs):** Session reporting will not export directly to downloadable CSV files this semester.
+3. **Multi-Tenant User Authentication & OAuth:** Students will not register permanent accounts or log in via Google OAuth; identity relies on the ticket itself, with no email or personal contact details collected.
 
 ---
 
