@@ -1,8 +1,44 @@
 import itertools
+import os
+
+try:
+    from dotenv import load_dotenv
+except ModuleNotFoundError:
+    def load_dotenv(path=".env"):
+        env_path = os.path.join(os.path.dirname(__file__), path)
+        if not os.path.exists(env_path):
+            return False
+
+        with open(env_path, encoding="utf-8") as env_file:
+            for line in env_file:
+                line = line.strip()
+                if not line or line.startswith("#") or "=" not in line:
+                    continue
+
+                key, value = line.split("=", 1)
+                key = key.strip()
+                value = value.strip().strip('"').strip("'")
+
+                os.environ.setdefault(key, value)
+
+        return True
+
 from flask import Flask, abort, flash, redirect, render_template, request, url_for
+from flask_migrate import Migrate
+from sqlalchemy import func
+from sqlalchemy.exc import IntegrityError
+
+from models import Room, Service, Ticket, db
+
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = "$H@AUL@"  # Week 11 moves this into an environment variable
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["DATABASE_URL"]
+app.config["SQLALCHEMY_ECHO"] = os.environ.get("SQLALCHEMY_ECHO") == "1"
+
+db.init_app(app)
+migrate = Migrate(app, db)
 
 # Academic Services
 SERVICES = [
