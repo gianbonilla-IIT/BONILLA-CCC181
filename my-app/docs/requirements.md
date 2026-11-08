@@ -1,6 +1,6 @@
 # ClassQ Requirements
 
-**Setting:** Academic defenses (capstone, thesis, project) and 1-on-1 instructor consultations in university and secondary school courses.  
+**Setting:** Academic defenses and 1-on-1 instructor consultations in university and secondary school courses.  
 **People who wait:** Marcus (Undergraduate CS Student managing heavy project-based coursework; detailed in [`docs/week3/personas.md`](week3/personas.md)).  
 **People who serve:** Sir Bustos (Computer Science Instructor handling laboratory sections and capstone defenses; detailed in [`docs/week3/personas.md`](week3/personas.md)).  
 
@@ -13,7 +13,7 @@
 | ID | Requirement | Priority | Stores data? | Status |
 | :--- | :--- | :--- | :--- | :--- |
 | FR-01 ★ | As a teacher, I want to create a queue room with an active meeting link so that students know where to enter when called. | Must | **Yes** | Built (Week 3) |
-| FR-02 ★ | As a student, I want to enter my identification details (name, email, project topic, service option) to join the queue without creating an account. | Must | **Yes** | Built (Week 3) |
+| FR-02 ★ | As a student, I want to enter my identification details (name, topic details, service option) to join the queue without creating an account. | Must | **Yes** | Built (Week 3) |
 | FR-03 | As a student, I want to see a live-updating dashboard showing my current turn status and position in line. | Must | **Yes** | Built (Week 3) |
 | FR-04 | As a teacher, I want a single "Call Next" control to advance the queue and call the next group. | Must | **Yes** | Built (Week 3) |
 | FR-05 | As a student, I want real-time status alerts and dynamic view updates on my ticket status page. | Should | **Yes** | Built (Week 3) |
@@ -47,7 +47,7 @@ The MVP consists of **FR-01, FR-02, FR-03, FR-04, FR-05, FR-06, FR-09, and FR-10
 
 ### Out of Scope (This Semester)
 1. **FR-08 (CSV Export & Session Grading Logs):** Session reporting will not export directly to downloadable CSV files this semester.
-2. **Multi-Tenant User Authentication & OAuth:** Students will not register permanent accounts or log in via Google OAuth; identity relies on unique email entries per queue session to prevent join friction.
+2. **Multi-Tenant User Authentication & OAuth:** Students will not register permanent accounts or log in via Google OAuth; identity relies on the ticket itself, with no email or personal contact details collected.
 
 ---
 
@@ -62,7 +62,7 @@ The requirement list was reviewed with **Al** (CSM student; non-CCC181 peer test
 > "Nothing stands out as wrong, but some of the potential extra features like high-contrast outdoor viewing modes or fancy LMS grade exports aren't really important to me right now. When we're waiting outside the defense room, all we care about is zero-friction joining without creating yet another account, and knowing our exact standing so we don't miss our turn."
 
 3. Which three matter most to you?
-> "The three that matter most to me as a student are: <br> (1) Joining quickly with just our name, email, topic, and track without forcing us to register passwords or create accounts.<br> (2) Seeing our ticket number, live status, and exact count of groups ahead so we know when to get ready. <br> (3) Getting immediate status updates and having the Google Meet/Zoom link show up right on our ticket the second Sir Bustos calls our group."
+> "The three that matter most to me as a student are: <br> (1) Joining quickly with just our name, topic, and service without forcing us to register passwords or create accounts.<br> (2) Seeing our ticket number, live status, and exact count of groups ahead so we know when to get ready. <br> (3) Getting immediate status updates and having the Google Meet/Zoom link show up right on our ticket the second Sir Bustos calls our group."
 
 | Who (role only) | What they said | What I changed |
 | :--- | :--- | :--- |
