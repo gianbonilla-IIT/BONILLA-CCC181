@@ -22,6 +22,7 @@
 | FR-08 | As a teacher, I want to export session queue history and attendance logs to CSV so that I have records for grading. | Won't  | **Yes** | Dropped |
 | FR-09 ★ | As a teacher, I want to manage service tracks (add, rename, and toggle active/inactive). | Must | **Yes** | This week |
 | FR-10 | As a teacher, I want to permanently delete mistaken or test tickets from the dashboard. | Must | **Yes** | This week |
+| FR-11 | Every ticket label starts with its service code | Should | **Yes** | Built (Week 3) |
 
 *Note: Requirements marked with ★ denote setting-specific features tailored to academic consultation queues.*
 
