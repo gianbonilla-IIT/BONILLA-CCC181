@@ -1,4 +1,3 @@
-import itertools
 import os
 
 from dotenv import load_dotenv
@@ -19,150 +18,43 @@ app.config["SQLALCHEMY_ECHO"] = os.environ.get("SQLALCHEMY_ECHO") == "1"
 db.init_app(app)
 migrate = Migrate(app, db)
 
-# Academic Services
-SERVICES = [
-    {"id": 1, "name": "Project Defense", "code": "PD"},
-    {"id": 2, "name": "Lab Consultation", "code": "LC"},
-    {"id": 3, "name": "Grade & Requirement Inquiry", "code": "GR"},
-]
-
-# Each ticket: number, group_name, service_id, status
-# status: waiting, called, served, no-show
-TICKETS = [
-    {
-        "number": 1,
-        "name": "Sherlock",
-        "topic": "Minimizing Traffic by Utilizing Contemporary Solutions",
-        "service_id": 1,
-        "status": "served",
-    },
-    {
-        "number": 2,
-        "name": "8Eyes",
-        "topic": "Utilizing Open-Source Fly Brain to Beat Simple Video Games",
-        "service_id": 1,
-        "status": "no-show",
-    },
-    {
-        "number": 3,
-        "name": "Media Minds",
-        "topic": "Analyzing the Impact of Social Media on Student Performance",
-        "service_id": 1,
-        "status": "called",
-    },
-    {
-        "number": 4,
-        "name": "Tech Innovators",
-        "topic": "Exploring the Potential of Quantum Computing in Data Analysis",
-        "service_id": 1,
-        "status": "waiting",
-    },
-    {
-        "number": 5,
-        "name": "Index",
-        "topic": "Developing a Mobile App for Efficient Campus Navigation",
-        "service_id": 1,
-        "status": "waiting",
-    },
-    {
-        "number": 6,
-        "name": "LightLLC",
-        "topic": "Investigating the Use of Light-Based Communication for High-Speed Data Transfer",
-        "service_id": 1,
-        "status": "waiting",
-    },
-    {
-        "number": 7,
-        "name": "GymSolutions",
-        "topic": "Designing a Smart Fitness App to Optimize Workout Routines",
-        "service_id": 1,
-        "status": "waiting",
-    },
-    {
-        "number": 8,
-        "name": "Thrift&Trade",
-        "topic": "Creating a Sustainable E-commerce Platform for Second-Hand Goods",
-        "service_id": 1,
-        "status": "waiting",
-    }
-]
-
-_ticket_numbers = itertools.count(max((t["number"] for t in TICKETS), default=0) + 1)
-
-
-
 MEETING_LINK = "https://meet.google.com/abc-defg-hij"  # Provided by the teacher
+
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
 
 @app.template_global()
 def ticket_label(t):
-    code = next((s["code"] for s in SERVICES if s["id"] == t["service_id"]), "")
-    return f"{code}{t['number']:02d}"
+    """Label shown to people, e.g. PD08. Built from the service code and ticket id."""
+    return f"{t.service.code}{t.id:02d}"
+
+
+def all_services():
+    """Services the join form offers: only the ones that are switched on."""
+    return db.session.scalars(
+        db.select(Service).where(Service.active).order_by(Service.id)
+    ).all()
+
+
+def current_room():
+    """ClassQ has one default room for now (created by the seed command)."""
+    return db.session.scalar(db.select(Room).order_by(Room.id))
+
+
+# ---------------------------------------------------------------------------
+# Part 7: Create (joining the queue) - uses the database
+# ---------------------------------------------------------------------------
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
-def _queue_context(t):
-    """Everything My place needs to know about the line, from ticket t's point of view.
-
-    Returns (ahead_count, upcoming, waiting_count, current):
-      ahead_count   - waiting tickets with a lower number than t (people ahead of you)
-      upcoming      - the first 4 waiting tickets in the whole line (may include t itself)
-      waiting_count - how many tickets are waiting in total
-      current       - the ticket currently being called, or None
-    """
-    waiting = sorted((x for x in TICKETS if x["status"] == "waiting"),
-                     key=lambda x: x["number"])
-    ahead_count = sum(1 for x in waiting if x["number"] < t["number"])
-    upcoming = waiting[:4]
-    current = next((x for x in TICKETS if x["status"] == "called"), None)
-    return ahead_count, upcoming, len(waiting), current
-
-@app.get("/queue/<int:ticket_id>")
-def ticket(ticket_id):
-    t = next((t for t in TICKETS if t["number"] == ticket_id), None)
-    if t is None:
-        abort(404)
-
-    ahead_count, upcoming, waiting_count, current = _queue_context(t)
-    service_name = next(s["name"] for s in SERVICES if s["id"] == t["service_id"])
-
-    return render_template("ticket.html", ticket=t, service_name=service_name,
-                           ahead_count=ahead_count, upcoming=upcoming,
-                           waiting_count=waiting_count, current=current,
-                           meeting_link=MEETING_LINK)
-
-@app.get("/queue/<int:ticket_id>/status.json")
-def ticket_status(ticket_id):
-    t = next((t for t in TICKETS if t["number"] == ticket_id), None)
-    if t is None:
-        abort(404)
-    ahead_count, upcoming, waiting_count, current = _queue_context(t)
-    return {
-        "status": t["status"],
-        "ahead": ahead_count,
-        "waiting": waiting_count,
-        "upcoming": [{"label": ticket_label(x), "mine": x["number"] == t["number"]}
-                     for x in upcoming],
-        "current": ticket_label(current) if current else None,
-    }
-
-@app.post("/queue/<int:ticket_id>/leave")
-def leave(ticket_id):
-    t = next((t for t in TICKETS if t["number"] == ticket_id), None)
-    if t is None:
-        abort(404)
-    if t["status"] in ("waiting", "called"):
-        TICKETS.remove(t)
-        flash("You left the queue.", "info")
-    else:
-        flash("That ticket is already closed.", "warning")
-    return redirect(url_for("join_form"))
-
 
 @app.get("/join")
 def join_form():
-    return render_template("join.html", services=SERVICES, form={}, errors={})
+    return render_template("join.html", services=all_services(), form={}, errors={})
 
 
 @app.post("/join")
@@ -171,6 +63,8 @@ def join():
     name = form.get("name", "").strip()
     topic = form.get("topic", "").strip()
     service_id = form.get("service_id", type=int)
+    service = db.session.get(Service, service_id) if service_id else None
+    room = current_room()
 
     errors = {}
     if not name:
@@ -181,112 +75,41 @@ def join():
         errors["topic"] = "Enter your topic or what you need help with."
     elif len(topic) > 150:
         errors["topic"] = "Keep the topic under 150 characters."
-    if service_id not in [s["id"] for s in SERVICES]:
+    if service is None or not service.active:
         errors["service_id"] = "Choose a service."
 
     if errors:
         flash("Please fix the highlighted fields.", "danger")
-        return render_template("join.html", services=SERVICES, form=form, errors=errors), 400
+        return render_template("join.html", services=all_services(),
+                               form=form, errors=errors), 400
 
-    number = next(_ticket_numbers)
-    TICKETS.append({
-        "number": number,
-        "name": name,
-        "topic": topic,
-        "service_id": service_id,
-        "status": "waiting",
-    })
-    flash(f"You joined the queue. Your ticket is {ticket_label(TICKETS[-1])}.", "success")
-    return redirect(url_for("ticket", ticket_id=number))
+    if room is None:
+        flash("The queue is not open yet. Ask your teacher.", "danger")
+        return render_template("join.html", services=all_services(),
+                               form=form, errors={}), 503
 
+    ticket = Ticket(room=room, service=service, group_name=name, topic=topic)
+    db.session.add(ticket)
+    try:
+        db.session.commit()
+    except IntegrityError as e:
+        db.session.rollback()
+        if "ux_tickets_active_group_name" in str(e.orig):
+            # The database stopped a double tap, or a second group with the same name.
+            flash("That group is already in the queue.", "danger")
+            return render_template("join.html", services=all_services(), form=form,
+                                   errors={"name": "That group is already in the queue."}), 409
+        flash("Something went wrong saving your ticket. Please try again.", "danger")
+        return render_template("join.html", services=all_services(),
+                               form=form, errors={}), 409
 
-def _back_to_dashboard():
-    """Redirect to the dashboard, keeping the service filter if one was active."""
-    sid = request.form.get("service_id", type=int)
-    return redirect(url_for("staff_dashboard", service_id=sid))
-
-def _someone_is_called():
-    return any(t["status"] == "called" for t in TICKETS)
-
-@app.get("/staff")
-def staff_dashboard():
-    service_id = request.args.get("service_id", type=int)
-    rows = TICKETS
-    if service_id:
-        rows = [t for t in TICKETS if t["service_id"] == service_id]
-    names = {s["id"]: s["name"] for s in SERVICES}
-    return render_template("staff.html", rows=rows, services=SERVICES, names=names,
-                           selected=service_id, meeting_link=MEETING_LINK,
-                           has_called=_someone_is_called(),
-                           called=next((t for t in TICKETS if t["status"] == "called"), None))
+    flash(f"You joined the queue. Your ticket is {ticket_label(ticket)}.", "success")
+    return redirect(url_for("ticket", ticket_id=ticket.id))
 
 
-@app.post("/staff/tickets/<int:ticket_id>/<action>")
-def staff_action(ticket_id, action):
-    t = next((t for t in TICKETS if t["number"] == ticket_id), None)
-    if t is None:
-        abort(404)
-    label = ticket_label(t)
-
-    if action == "delete":
-        TICKETS.remove(t)
-        flash(f"Ticket {label} deleted.", "info")
-    else:
-        new_status = {"call": "called", "serve": "served", "no-show": "no-show"}.get(action)
-        if new_status is None:
-            abort(404)
-        if action == "no-show" and t["status"] != "called":
-            flash("Only the ticket currently being called can be marked no-show.", "warning")
-            return _back_to_dashboard()
-        if action == "call" and _someone_is_called():
-            flash("Serve or mark the current ticket first.", "warning")
-            return _back_to_dashboard()
-        t["status"] = new_status
-        flash(f"Ticket {label} marked {new_status}.", "info")
-    return _back_to_dashboard()
-
-
-@app.post("/staff/call-next")
-def call_next():
-    if _someone_is_called():
-        flash("Serve or mark the current ticket first.", "warning")
-        return _back_to_dashboard()
-
-    sid = request.form.get("service_id", type=int)
-    nxt = next(
-        (
-            t
-            for t in TICKETS
-            if t["status"] == "waiting"
-            and (not sid or t["service_id"] == sid)
-        ),
-        None,
-    )
-    if nxt:
-        nxt["status"] = "called"
-        flash(f"Now calling {ticket_label(nxt)}: {nxt['name']}.", "success")
-    else:
-        flash("No one is waiting.", "info")
-    return _back_to_dashboard()
-
-
-@app.post("/staff/clear")
-def clear_queue():
-    TICKETS.clear()
-    flash("The queue was cleared.", "info")
-    return redirect(url_for("staff_dashboard"))
-
-
-@app.post("/staff/meeting-link")
-def set_meeting_link():
-    global MEETING_LINK
-    link = request.form.get("meeting_link", "").strip()
-    if not link.startswith(("https://", "http://")):
-        flash("Enter a full link starting with https://", "danger")
-    else:
-        MEETING_LINK = link
-        flash("Meeting link saved. Called students will see a Join the call button.", "success")
-    return redirect(url_for("staff_dashboard"))
+# ---------------------------------------------------------------------------
+# Part 6: starting data
+# ---------------------------------------------------------------------------
 
 @app.cli.command("seed")
 def seed():
@@ -306,7 +129,56 @@ def seed():
 
     db.session.commit()
     print("Services and the default room are ready.")
-    
+
+
+# ===========================================================================
+# STILL THE WEEK 3 CODE: the routes below use the deleted TICKETS and
+# SERVICES lists, so they error when opened. Part 8 replaces the read
+# routes (My place, staff dashboard) and Part 9 replaces the update and
+# delete routes. The routes must keep existing now, because the navbar and
+# the redirect after joining call url_for() on their names.
+# ===========================================================================
+
+@app.get("/queue/<int:ticket_id>")
+def ticket(ticket_id):
+    abort(501)  # Part 8
+
+
+@app.get("/queue/<int:ticket_id>/status.json")
+def ticket_status(ticket_id):
+    abort(501)  # Part 8
+
+
+@app.post("/queue/<int:ticket_id>/leave")
+def leave(ticket_id):
+    abort(501)  # Part 9
+
+
+@app.get("/staff")
+def staff_dashboard():
+    abort(501)  # Part 8
+
+
+@app.post("/staff/tickets/<int:ticket_id>/<action>")
+def staff_action(ticket_id, action):
+    abort(501)  # Part 9
+
+
+@app.post("/staff/call-next")
+def call_next():
+    abort(501)  # Part 9
+
+
+@app.post("/staff/clear")
+def clear_queue():
+    abort(501)  # Part 9
+
+
+@app.post("/staff/meeting-link")
+def set_meeting_link():
+    abort(501)  # Part 9
+
+
 if __name__ == "__main__":
     # Lets you also start the app with: python app.py
     app.run(debug=True)
