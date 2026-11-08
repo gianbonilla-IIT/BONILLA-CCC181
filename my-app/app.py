@@ -1,28 +1,7 @@
 import itertools
 import os
 
-try:
-    from dotenv import load_dotenv
-except ModuleNotFoundError:
-    def load_dotenv(path=".env"):
-        env_path = os.path.join(os.path.dirname(__file__), path)
-        if not os.path.exists(env_path):
-            return False
-
-        with open(env_path, encoding="utf-8") as env_file:
-            for line in env_file:
-                line = line.strip()
-                if not line or line.startswith("#") or "=" not in line:
-                    continue
-
-                key, value = line.split("=", 1)
-                key = key.strip()
-                value = value.strip().strip('"').strip("'")
-
-                os.environ.setdefault(key, value)
-
-        return True
-
+from dotenv import load_dotenv
 from flask import Flask, abort, flash, redirect, render_template, request, url_for
 from flask_migrate import Migrate
 from sqlalchemy import func
@@ -309,7 +288,25 @@ def set_meeting_link():
         flash("Meeting link saved. Called students will see a Join the call button.", "success")
     return redirect(url_for("staff_dashboard"))
 
+@app.cli.command("seed")
+def seed():
+    """Add the starting services and a default room if they are not there yet."""
+    starting = [
+        ("Project Defense", "PD"),
+        ("Lab Consultation", "LC"),
+        ("Grade & Requirement Inquiry", "GR"),
+    ]
+    for name, code in starting:
+        exists = db.session.scalar(db.select(Service).filter_by(name=name))
+        if exists is None:
+            db.session.add(Service(name=name, code=code))
 
+    if db.session.scalar(db.select(Room)) is None:
+        db.session.add(Room(name="Default Room", meeting_link=MEETING_LINK))
+
+    db.session.commit()
+    print("Services and the default room are ready.")
+    
 if __name__ == "__main__":
     # Lets you also start the app with: python app.py
     app.run(debug=True)
