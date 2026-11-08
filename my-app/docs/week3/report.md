@@ -4,7 +4,7 @@
 - **App name:** ClassQ
 - **Setting:** Academic defenses and 1-on-1 consultations in university and secondary school courses
 - **Full name:** Gian Christian S. Bonilla
-- **Student ID:** 2024-0408 (or your actual ID)
+- **Student ID:** 2024-0408
 - **Section:** CS3A
 - **Date submitted:** October 28, 2026
 - **Pull Request link:** [\[GitHub Pull Request Link Here\]](https://github.com/gianbonilla-IIT/BONILLA-CCC181/pull/2)
@@ -26,9 +26,10 @@
 
 | Screen | Laptop View | Phone View | Persona & Requirements |
 | :--- | :--- | :--- | :--- |
-| **Join Queue** | ![Join Laptop](wireframes/join-laptop.png) | ![Join Phone](wireframes/join-phone.png) | Used by **Marcus** to submit group details; covers **FR-02**. |
-| **My Place** | ![Ticket Laptop](wireframes/ticket-laptop.png) | ![Ticket Phone](wireframes/ticket-phone.png) | Used by **Marcus** to track live standing and ticket status; covers **FR-03, FR-06**. |
-| **Staff Dashboard** | ![Staff Laptop](wireframes/staff-laptop.png) | ![Staff Phone](wireframes/staff-phone.png) | Used by **Sir Bustos** to manage the queue and call turns; covers **FR-01, FR-04, FR-06**. |
+| **Join Queue** | ![Join Laptop](screenshots/section-10d-join-laptop.png) | ![Join Phone](screenshots/section-10d-join-phone.png) | Used by **Marcus** to submit group details; covers **FR-02**. |
+| **My Place** | ![Ticket Laptop](screenshots/section-10d-queue-laptop.png) | ![Ticket Phone](screenshots/section-10d-queue-phone.png) | Used by **Marcus** to track live standing and ticket status; covers **FR-03, FR-06**. |
+| **Staff Dashboard** | ![Staff Laptop](screenshots/section-10d-staff-laptop.png) | ![Staff Phone](screenshots/section-10d-staff-phone.png) | Used by **Sir Bustos** to manage the queue and call turns; covers **FR-01, FR-04, FR-06**. |
+
 
 ---
 
@@ -66,7 +67,7 @@
 ---
 
 ## 8. Reflection
-- **Hardest part this week:** Balancing clean responsive card alignment across both ultra-wide desktop monitors and 375 px mobile viewports without causing horizontal page scrolling.
+- **Hardest part this week:** Designing the wireframes took a lot of effort and thought, because that phase's output is basically what the development revolved around of.
 - **What to change when moving to a database in Week 4:** Replace in-memory list filtering and global integer counters with proper database primary keys and persistent rows, ensuring ticket URLs remain permanently unique even if preceding tickets are deleted or reordered.
 
 ---
