@@ -28,9 +28,9 @@
           </div>
 
           <div class="mb-3">
-            <label for="topic" class="form-label">Topic</label>
+            <label for="topic" class="form-label">Topic / Consultation Details</label>
             <input id="topic" name="topic" type="text" maxlength="150" required
-                   placeholder="A Showcase of a Novel Algorithm" autocomplete="off"
+                   placeholder="Project title, Lab problem, or Prelim grade check" autocomplete="off"
                    class="inputfields form-control {% if errors.topic %}is-invalid{% endif %}"
                    value="{{ form.get('topic', '') }}"
                    {% if errors.topic %}aria-describedby="topic-error"{% endif %}>
