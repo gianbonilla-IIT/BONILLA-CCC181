@@ -3,10 +3,12 @@ import os
 from dotenv import load_dotenv
 from flask import Flask, abort, flash, redirect, render_template, request, url_for
 from flask_migrate import Migrate
-from sqlalchemy import func
+from sqlalchemy import func, tuple_
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import joinedload
 
 from models import Room, Service, Ticket, db
+
 
 load_dotenv()
 
@@ -31,16 +33,59 @@ def ticket_label(t):
     return f"{t.service.code}{t.id:02d}"
 
 
-def all_services():
-    """Services the join form offers: only the ones that are switched on."""
-    return db.session.scalars(
-        db.select(Service).where(Service.active).order_by(Service.id)
-    ).all()
+def all_services(active_only=True):
+    """Services for a dropdown. The join form offers only active ones; staff filters list all."""
+    stmt = db.select(Service).order_by(Service.id)
+    if active_only:
+        stmt = stmt.where(Service.active)
+    return db.session.scalars(stmt).all()
 
 
 def current_room():
     """ClassQ has one default room for now (created by the seed command)."""
     return db.session.scalar(db.select(Room).order_by(Room.id))
+
+
+def _waiting_in_room(room_id):
+    """Waiting tickets of a room in the order they joined."""
+    return (db.select(Ticket)
+            .options(joinedload(Ticket.service))
+            .where(Ticket.room_id == room_id, Ticket.status == "waiting")
+            .order_by(Ticket.created_at, Ticket.id))
+
+
+def people_ahead(t):
+    """Count tickets still waiting in the same room that joined before t.
+    Counted in the database, never stored. The id breaks ties between equal times."""
+    stmt = (db.select(func.count())
+            .select_from(Ticket)
+            .where(Ticket.room_id == t.room_id,
+                   Ticket.status == "waiting",
+                   tuple_(Ticket.created_at, Ticket.id) < tuple_(t.created_at, t.id)))
+    return db.session.scalar(stmt)
+
+
+def called_ticket(room_id):
+    """The ticket being called right now in a room, or None."""
+    return db.session.scalar(
+        db.select(Ticket)
+        .options(joinedload(Ticket.service))
+        .where(Ticket.room_id == room_id, Ticket.status == "called")
+        .order_by(Ticket.id))
+
+
+def queue_context(t):
+    """Everything My place shows, from the point of view of ticket t."""
+    upcoming = db.session.scalars(_waiting_in_room(t.room_id).limit(4)).all()
+    waiting_count = db.session.scalar(
+        db.select(func.count()).select_from(Ticket)
+        .where(Ticket.room_id == t.room_id, Ticket.status == "waiting"))
+    return {
+        "ahead": people_ahead(t),
+        "upcoming": upcoming,
+        "waiting_count": waiting_count,
+        "current": called_ticket(t.room_id),
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -131,32 +176,63 @@ def seed():
     print("Services and the default room are ready.")
 
 
-# ===========================================================================
-# STILL THE WEEK 3 CODE: the routes below use the deleted TICKETS and
-# SERVICES lists, so they error when opened. Part 8 replaces the read
-# routes (My place, staff dashboard) and Part 9 replaces the update and
-# delete routes. The routes must keep existing now, because the navbar and
-# the redirect after joining call url_for() on their names.
-# ===========================================================================
+# ---------------------------------------------------------------------------
+# Part 8: Read (My place and the staff dashboard) - uses the database
+# ---------------------------------------------------------------------------
 
 @app.get("/queue/<int:ticket_id>")
 def ticket(ticket_id):
-    abort(501)  # Part 8
+    t = db.get_or_404(Ticket, ticket_id)
+    ctx = queue_context(t)
+    return render_template("ticket.html", ticket=t, service_name=t.service.name,
+                           ahead_count=ctx["ahead"], upcoming=ctx["upcoming"],
+                           waiting_count=ctx["waiting_count"], current=ctx["current"],
+                           meeting_link=t.room.meeting_link)
 
 
 @app.get("/queue/<int:ticket_id>/status.json")
 def ticket_status(ticket_id):
-    abort(501)  # Part 8
-
-
-@app.post("/queue/<int:ticket_id>/leave")
-def leave(ticket_id):
-    abort(501)  # Part 9
+    t = db.get_or_404(Ticket, ticket_id)
+    ctx = queue_context(t)
+    return {
+        "status": t.status,
+        "ahead": ctx["ahead"],
+        "waiting": ctx["waiting_count"],
+        "upcoming": [{"label": ticket_label(x), "mine": x.id == t.id}
+                     for x in ctx["upcoming"]],
+        "current": ticket_label(ctx["current"]) if ctx["current"] else None,
+    }
 
 
 @app.get("/staff")
 def staff_dashboard():
-    abort(501)  # Part 8
+    service_id = request.args.get("service_id", type=int)
+    room = current_room()
+    rows = []
+    called = None
+    if room is not None:
+        stmt = (db.select(Ticket)
+                .options(joinedload(Ticket.service))
+                .where(Ticket.room_id == room.id)
+                .order_by(Ticket.created_at, Ticket.id))
+        if service_id:
+            stmt = stmt.where(Ticket.service_id == service_id)
+        rows = db.session.scalars(stmt).all()
+        called = called_ticket(room.id)
+    return render_template("staff.html", rows=rows, services=all_services(active_only=False),
+                           selected=service_id, called=called, has_called=called is not None,
+                           meeting_link=room.meeting_link if room else MEETING_LINK)
+
+
+# ===========================================================================
+# STILL TO DO: these routes are placeholders. Part 9 replaces the update and
+# delete routes. They must keep existing, because the templates call
+# url_for() on their names.
+# ===========================================================================
+
+@app.post("/queue/<int:ticket_id>/leave")
+def leave(ticket_id):
+    abort(501)  # Part 9
 
 
 @app.post("/staff/tickets/<int:ticket_id>/<action>")
