@@ -66,7 +66,7 @@ Designed from the requirements marked **Stores data? = Yes** in [`docs/requireme
 
 ## 2d. Relationships and ERD
 
-![ERD](erd.png)
+![ERD](screenshots/erd.png)
 
 | Relationship | Kind | Foreign key |
 | --- | --- | --- |
