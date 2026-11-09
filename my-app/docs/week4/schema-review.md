@@ -1,4 +1,4 @@
-# ClassQ schema self-review (Week 4)
+# ClassQ schema self-review
 
 I reviewed [`schema.md`](schema.md) as if someone else had drawn it, using the six questions from the assignment. The changes below are already applied to `schema.md`, `classq.dbml` and the ERD.
 
