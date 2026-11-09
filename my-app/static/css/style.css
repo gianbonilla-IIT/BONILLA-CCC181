@@ -120,6 +120,7 @@ h2 { color: var(--pale-blue); }
 .status-no-show { background-color: #FED6D9; color: #E1404A; }
 .status-called  { background-color: #ffe9a0; color: #ad8c13; }
 .status-waiting { background-color: #D0E2FD; color: #0E62FE; }
+.status-left { background-color: #E3E6EC; color: #4D5358; }
 
 .btn-call-next {
   --bs-btn-color: #fff;
