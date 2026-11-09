@@ -76,4 +76,11 @@ class Ticket(db.Model):
             unique=True,
             postgresql_where=text("status IN ('waiting', 'called')"),
         ),
+        # At most one ticket is being called at a time in a room (added by migration 2)
+        Index(
+            "ux_tickets_one_called_per_room",
+            "room_id",
+            unique=True,
+            postgresql_where=text("status = 'called'"),
+        ),
     )

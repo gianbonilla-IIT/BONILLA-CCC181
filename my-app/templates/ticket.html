@@ -51,7 +51,7 @@
               {% endif %}
             </p>
           </div>
-          <p class="small fst-italic text-body-secondary mb-3">selected service: {{ service_name }} <br> joined: {{ ticket.created_at|local }}</p>
+          <p class="small fst-italic text-body-secondary mb-3">Selected service: {{ service_name }} <br> Joined: {{ ticket.created_at|local }}</p>
 
           <a id="join-call" class="btn btn-success w-100 mb-2" href="{{ meeting_link }}"
              target="_blank" rel="noopener" {% if ticket.status != "called" %}hidden{% endif %}>Join Call</a>
