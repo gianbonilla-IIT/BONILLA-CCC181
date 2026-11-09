@@ -89,7 +89,7 @@
           {% for t in rows %}
             <tr class="{% if t.status == 'called' %}table-warning{% endif %}">
                 <th scope="row" class="text-nowrap">{{ ticket_label(t) }}</th>
-                <td>{{ t.name }}</td>
+                <td>{{ t.group_name }}</td>
                 <td class="topic">{{ t.topic }}</td>
                 <td class="text-center">{{ status_badge(t.status) }}</td>
                 <td class="text-center">
