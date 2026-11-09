@@ -2,6 +2,9 @@
 
 ClassQ is a lightweight real-time queue management system tailored for academic defenses and 1-on-1 consultation sessions. It automates student turn-tracking and alerts, eliminating idle anxiety and the manual overhead of updating spreadsheets and shared documents.
 
+## Documentation
+- [Functional and Non-functional Requirements](docs/requirements.md)
+
 ## Project structure
 
 ```
