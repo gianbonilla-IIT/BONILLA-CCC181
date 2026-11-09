@@ -30,8 +30,8 @@ I followed the restart test as instructed in hw4.
 
 #### RESULT:
 
-![Before migration](screenshots\11b-screenshot_1.png)
+![After migration (browser view)](screenshots\11b-screenshot_1.png)
 
-![After migration](screenshots\11b-screenshot_2.png)
+![After migration (db tables terminal view)](screenshots\11b-screenshot_2.png)
 
 Results are expected. As shown in the psql in powershell, these were the only seeded records in the migrations, and they were passed successfully to the front-end.
