@@ -223,7 +223,7 @@ def staff_dashboard():
     if room is not None:
         stmt = (db.select(Ticket)
                 .options(joinedload(Ticket.service))
-                .where(Ticket.room_id == room.id, Ticket.status != "left")
+                .where(Ticket.room_id == room.id)
                 .order_by(Ticket.created_at, Ticket.id))
         if service_id:
             stmt = stmt.where(Ticket.service_id == service_id)
