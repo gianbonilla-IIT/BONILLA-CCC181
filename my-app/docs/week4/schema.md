@@ -60,6 +60,7 @@ Designed from the requirements marked **Stores data? = Yes** in [`docs/requireme
 | Table | Rule | Definition | Why |
 | --- | --- | --- | --- |
 | tickets | `ux_tickets_active_group_name`: one active ticket per group name in a room | `UNIQUE (room_id, lower(group_name)) WHERE status IN ('waiting', 'called')` | A double tap or a second tab cannot put the same group in line twice. A group name is free again once its ticket is finished. |
+| tickets | `uux_tickets_one_called_per_room` | `UNIQUE (room_id) WHERE status = 'called'` | At most one ticket is called at a time in a room. |
 
 ---
 
