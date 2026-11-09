@@ -1,5 +1,7 @@
 import os
 
+from datetime import timedelta, timezone
+
 from dotenv import load_dotenv
 from flask import Flask, abort, flash, redirect, render_template, request, url_for
 from flask_migrate import Migrate
@@ -8,7 +10,6 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload
 
 from models import Room, Service, Ticket, db
-
 
 load_dotenv()
 
@@ -44,6 +45,13 @@ def all_services(active_only=True):
 def current_room():
     """ClassQ has one default room for now (created by the seed command)."""
     return db.session.scalar(db.select(Room).order_by(Room.id))
+
+PH_TIME = timezone(timedelta(hours=8))  # Philippine time has no daylight saving
+
+@app.template_filter("local")
+def local_time(value):
+    """Show a database time in Philippine time, e.g. Nov 09, 08:01 AM."""
+    return value.astimezone(PH_TIME).strftime("%b %d, %Y - %I:%M %p") if value else ""
 
 
 def _waiting_in_room(room_id):
@@ -222,7 +230,6 @@ def staff_dashboard():
     return render_template("staff.html", rows=rows, services=all_services(active_only=False),
                            selected=service_id, called=called, has_called=called is not None,
                            meeting_link=room.meeting_link if room else MEETING_LINK)
-
 
 # ===========================================================================
 # STILL TO DO: these routes are placeholders. Part 9 replaces the update and
